@@ -1,7 +1,7 @@
 //Displays options for root note, mode
 
 import { useState } from 'react'
-import { generateRandomProgression } from '../types/chords'
+import { getRandomProgression, getRandomRootNote } from '../types/chords'
 import { SelectorTooltip } from './SelectorTooltip'
 import { notes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
@@ -23,8 +23,9 @@ export const MenuBar = () => {
   const toggleMode = () => setMode((mode) => (mode == 'maj' ? 'min' : 'maj'))
   const toggleRootNoteDisplay = () =>
     setDisplayRootNoteOptions((state) => !state)
-  const setRandomProgression = () => {
-    setNumberedChords(generateRandomProgression({ chordAmount: 4 }))
+  const setRandom = () => {
+    setNumberedChords(getRandomProgression({ chordAmount: 4 }))
+    setRootNote((currrentRootNote) => getRandomRootNote(currrentRootNote))
   }
 
   return (
@@ -47,9 +48,9 @@ export const MenuBar = () => {
       </h3>
       <h3
         className="font-inter font-thin text-2xl text-white cursor-pointer"
-        onClick={setRandomProgression}
+        onClick={setRandom}
       >
-        Rando
+        Random
       </h3>
     </div>
   )

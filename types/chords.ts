@@ -1,3 +1,5 @@
+import { chordsByKey, notes } from '../utils/music-theory'
+
 export type Note =
   | 'C'
   | 'C#'
@@ -66,6 +68,8 @@ export type MinorRomanChord = 'i' | 'iio' | 'III' | 'iv' | 'v' | 'VI' | 'VII'
 
 export type RomanChord = MajorRomanChord | MinorRomanChord
 
+export type ScaleType = 'base' | 'pentatonic'
+
 export const romanChords: Record<'maj', MajorRomanChord[]> &
   Record<'min', MinorRomanChord[]> = {
   maj: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'VIIo'],
@@ -82,7 +86,7 @@ export const getRandomValueFromArray = <T>(arr: T[]): T => {
  * @param param0 -
  * @returns - 0-indexed chord progression. Ex. [0,3,2,1] is a 1, 4, 3, 2 progression
  */
-export const generateRandomProgression = ({
+export const getRandomProgression = ({
   chordAmount,
 }: {
   chordAmount: number
@@ -97,6 +101,14 @@ export const generateRandomProgression = ({
   }
 
   return progression
+}
+
+export const getRandomRootNote = (currentRootNote: Note) => {
+  let newRootNote = currentRootNote
+  while (currentRootNote === newRootNote) {
+    newRootNote = notes[Math.floor(Math.random() * notes.length)]
+  }
+  return newRootNote
 }
 
 export const getProgressionForKey = (

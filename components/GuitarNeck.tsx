@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   chordsByKey,
   getCommonNotes,
@@ -34,25 +34,25 @@ const Fret = ({ fretPosition }: { fretPosition: number }) => {
 
   return (
     <div className={`border-white ${getFretWidth(fretPosition)}`}>
-      <div className="relative border-white border border-b-slate-300  border-t-slate-300 w-full h-3 flex flex-row justify-center items-end z-0">
+      <div className="relative border-white border-x  border-b-2 border-b-slate-300  border-t-slate-300 w-full h-3 flex flex-row justify-center items-end z-0">
         <NoteDot stringIdx={0} {...{ fretPosition }} />
       </div>
-      <div className="relative border-white border border-b-slate-300  border-t-slate-300 w-full h-6 flex justify-center items-center z-0">
+      <div className="relative border-white border-x border-b-2  border-b-slate-300  border-t-slate-300 w-full h-6 flex justify-center items-center z-0">
         <NoteDot stringIdx={1} {...{ fretPosition }} />
       </div>
-      <div className="relative border-white border border-b-slate-300  border-t-slate-300 w-full h-7 flex justify-center items-center z-0">
+      <div className="relative border-white border-x border-b-2 border-b-slate-300  border-t-slate-300 w-full h-7 flex justify-center items-center z-0">
         <NoteDot stringIdx={2} {...{ fretPosition }} />
         {fretPosition === 11 && <FretDot />}
       </div>
-      <div className="relative border-white border border-t-slate-300 w-full h-7 flex justify-center items-center z-0">
+      <div className="relative border-white border-x border-b-2 border-t-slate-300 w-full h-7 flex justify-center items-center z-0">
         <NoteDot stringIdx={3} {...{ fretPosition }} />
         {singleDotFrets.includes(fretPosition) && <FretDot />}
       </div>
-      <div className="relative border-white border border-b-2 w-full h-7 flex justify-center items-center z-0">
+      <div className="relative border-white border-x border-b-2 w-full h-7 flex justify-center items-center z-0">
         <NoteDot stringIdx={4} {...{ fretPosition }} />
         {fretPosition === 11 && <FretDot />}
       </div>
-      <div className="relative border-slate-200 border border-b-4  w-full h-7 flex justify-center items-center z-0">
+      <div className="relative border-slate-200 border-x border-b-4  w-full h-7 flex justify-center items-center z-0">
         <NoteDot stringIdx={5} {...{ fretPosition }} />
       </div>
       <div className="relative border-slate-200 border-x w-full h-5 z-0" />
@@ -93,11 +93,13 @@ const NoteDot = ({
   return (
     <Fade key={`${note}-${rootNote}-${mode}`}>
       <div
-        className={`rounded-full w-5 h-5 relative translate-y-3 z-40 ${bgColor}`}
+        className={`rounded-full w-5 h-5 translate-y-3 z-40 ${bgColor} flex items-center justify-center`}
         onClick={() => {
           console.log('Note:', note, 'Note in key:', notesInKey)
         }}
-      />
+      >
+        <p className="font-inter text-xs text-center text-white">{note}</p>
+      </div>
     </Fade>
   )
 }

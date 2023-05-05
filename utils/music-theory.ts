@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { MajorRomanChord, MinorRomanChord, Mode, Note } from '../types/chords'
+import {
+  MajorRomanChord,
+  MinorRomanChord,
+  Mode,
+  Note,
+  ScaleType,
+} from '../types/chords'
 
 export const notes: Note[] = [
   'C',
@@ -115,6 +121,77 @@ export const chordsByKey: Record<string, { [key: string]: string[] }> = {
   },
 }
 
+export const pentatonicByKey: Record<string, { [key: string]: string[] }> = {
+  C: {
+    maj: ['C', 'D', 'E', 'G', 'A'],
+    min: ['A#', 'C', 'D#', 'F', 'G'],
+  },
+  'C#': {
+    maj: ['C#', 'D#', 'F', 'G#', 'A#'],
+    min: ['B', 'C#', 'E', 'F#', 'A'],
+  },
+  Db: {
+    maj: ['Db', 'Eb', 'F', 'Ab', 'Bb'],
+    min: ['B', 'Db', 'E', 'F#', 'A'],
+  },
+  D: {
+    maj: ['D', 'E', 'F#', 'A', 'B'],
+    min: ['C', 'D', 'F', 'G', 'A#'],
+  },
+  'D#': {
+    maj: ['D#', 'F', 'G', 'A#', 'C'],
+    min: ['C#', 'D#', 'F#', 'G#', 'B'],
+  },
+  Eb: {
+    maj: ['Eb', 'F', 'G', 'Bb', 'C'],
+    min: ['C#', 'Eb', 'F#', 'G#', 'B'],
+  },
+  E: {
+    maj: ['E', 'F#', 'G#', 'B', 'C#'],
+    min: ['D', 'E', 'G', 'A', 'B#'],
+  },
+  F: {
+    maj: ['F', 'G', 'A', 'C', 'D'],
+    min: ['D#', 'F', 'G#', 'A#', 'C#'],
+  },
+  'F#': {
+    maj: ['F#', 'G#', 'A#', 'C#', 'D#'],
+    min: ['D#', 'F#', 'G#', 'B', 'C#'],
+  },
+  Gb: {
+    maj: ['Gb', 'Ab', 'Bb', 'Db', 'Eb'],
+    min: ['E', 'Gb', 'A', 'B', 'D'],
+  },
+  G: {
+    maj: ['G', 'A', 'B', 'D', 'E'],
+    min: ['F', 'G', 'A#', 'C', 'D#'],
+  },
+  'G#': {
+    maj: ['G#', 'A#', 'C', 'D#', 'F'],
+    min: ['F#', 'G#', 'A#', 'C#', 'E'],
+  },
+  Ab: {
+    maj: ['Ab', 'Bb', 'C', 'Eb', 'F'],
+    min: ['G', 'Ab', 'B', 'Db', 'E'],
+  },
+  A: {
+    maj: ['A', 'B', 'C#', 'E', 'F#'],
+    min: ['G', 'A', 'C', 'D', 'E#'],
+  },
+  'A#': {
+    maj: ['A#', 'C', 'D', 'F', 'G'],
+    min: ['G#', 'A#', 'C#', 'D#', 'F#'],
+  },
+  Bb: {
+    maj: ['Bb', 'C', 'D', 'F', 'G'],
+    min: ['G#', 'Bb', 'C#', 'D#', 'F#'],
+  },
+  B: {
+    maj: ['B', 'C#', 'D#', 'F#', 'G#'],
+    min: ['A', 'B', 'D', 'E', 'F##'],
+  },
+}
+
 export const commonNotes: Note[][] = [
   ['C#', 'Db'],
   ['D#', 'Eb'],
@@ -157,6 +234,7 @@ export const useChordProgression = () => {
   const [numberedChords, setNumberedChords] = useState([0, 1, 2, 3])
   const [rootNote, setRootNote] = useState<Note>('C')
   const [mode, setMode] = useState<Mode>('maj')
+  const [scaleType, setScaleType] = useState<ScaleType>('base')
 
   const romanChords = getRomanChords(numberedChords, mode)
   const letterChords = getLetteredChords(numberedChords, rootNote, mode)
@@ -174,5 +252,7 @@ export const useChordProgression = () => {
     setRootNote,
     mode,
     setMode,
+    scaleType,
+    setScaleType,
   }
 }
