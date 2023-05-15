@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import {
+  ChordMode,
+  KeyMode,
   MajorRomanChord,
   MinorRomanChord,
-  Mode,
   Note,
   ScaleType,
 } from '../types/chords'
+import { Chord, KeySignature, getChordNotes } from './get-chord'
 
 export const notes: Note[] = [
   'C',
@@ -211,17 +213,20 @@ export const getCommonNotes = (note: Note): Note[] => {
 
 export const romanChords: Record<'maj', MajorRomanChord[]> &
   Record<'min', MinorRomanChord[]> = {
-  maj: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'VIIo'],
-  min: ['i', 'iio', 'III', 'iv', 'v', 'VI', 'VII'],
+  maj: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'VII°'],
+  min: ['i', 'II°', 'III', 'iv', 'v', 'VI', 'VII'],
 }
 
-export const getRomanChords = (progression: number[], mode: Mode) =>
-  progression.map((idx) => romanChords[mode][idx])
+export const getRomanChords = (mode: KeyMode, progression?: number[]) => {
+  if (progression) return progression.map((idx) => romanChords[mode][idx])
+  return romanChords[mode]
+}
+  
 
 export const getLetteredChords = (
   progression: number[],
   rootNote: Note,
-  mode: Mode
+  mode: ChordMode
 ) => {
   const keyChords = chordsByKey[rootNote][mode]
   return progression.map((idx) => keyChords[idx])
@@ -230,22 +235,30 @@ export const getLetteredChords = (
 export const getNoteFromFretPosition = (string: number, fret: number) =>
   FRET_NOTES[fret][string]
 
+export const getChordMode = (chord: string) => {
+  if (chord.includes('m')) return 'min'
+  if (chord.includes('o')) return 'dim'
+  return 'maj'
+}
+
 export const useChordProgression = () => {
-  const [numberedChords, setNumberedChords] = useState([0, 1, 2, 3])
+  const [numberedChords, setNumberedChords] = useState()
   const [rootNote, setRootNote] = useState<Note>('C')
-  const [mode, setMode] = useState<Mode>('maj')
+  const [activeChord, setActiveChord] = useState<Chord>()
+  const [mode, setMode] = useState<KeyMode>('maj')
   const [scaleType, setScaleType] = useState<ScaleType>('base')
 
-  const romanChords = getRomanChords(numberedChords, mode)
-  const letterChords = getLetteredChords(numberedChords, rootNote, mode)
+  const romanChords = getRomanChords(mode, numberedChords)
+
   const chords = {
-    romanNumerals: getRomanChords(numberedChords, mode),
-    lettered: getLetteredChords(numberedChords, rootNote, mode),
+    romanNumerals: getRomanChords(mode, numberedChords),
   }
+  const keySig = new KeySignature(rootNote, mode)
+
 
   return {
+    keySig,
     romanChords,
-    letterChords,
     chords,
     setNumberedChords,
     rootNote,
@@ -254,5 +267,7 @@ export const useChordProgression = () => {
     setMode,
     scaleType,
     setScaleType,
+    activeChord,
+    setActiveChord,
   }
 }

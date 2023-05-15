@@ -55,16 +55,18 @@ export type NoteChord =
   | 'A#o'
   | 'Bbo'
   | 'Bo'
+
 //The uppercase Roman numerals represent major chords, the lowercase Roman numerals represent minor chords,
 //and the "m" suffix indicates a minor chord.
 //The "7" suffix indicates a dominant 7th chord, the "6" suffix indicates an inverted major chord,
 //and the "64" suffix indicates an inverted dominant chord.
 
-export type Mode = 'maj' | 'min'
+export type KeyMode = 'maj' | 'min' 
+export type ChordMode = KeyMode | 'dim'
 
-export type MajorRomanChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'VIIo'
+export type MajorRomanChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'VII°'
 
-export type MinorRomanChord = 'i' | 'iio' | 'III' | 'iv' | 'v' | 'VI' | 'VII'
+export type MinorRomanChord = 'i' | 'II°' | 'III' | 'iv' | 'v' | 'VI' | 'VII'
 
 export type RomanChord = MajorRomanChord | MinorRomanChord
 
@@ -72,8 +74,8 @@ export type ScaleType = 'base' | 'pentatonic'
 
 export const romanChords: Record<'maj', MajorRomanChord[]> &
   Record<'min', MinorRomanChord[]> = {
-  maj: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'VIIo'],
-  min: ['i', 'iio', 'III', 'iv', 'v', 'VI', 'VII'],
+  maj: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'VII°'],
+  min: ['i', 'II°', 'III', 'iv', 'v', 'VI', 'VII'],
 }
 
 export const getRandomValueFromArray = <T>(arr: T[]): T => {
@@ -114,7 +116,7 @@ export const getRandomRootNote = (currentRootNote: Note) => {
 export const getProgressionForKey = (
   progression: number[],
   rootNote: string,
-  mode: Mode
+  mode: KeyMode
 ) => {
   const chords = chordsByKey[rootNote][mode]
   return progression.map((chordNumber) => chords[chordNumber])
