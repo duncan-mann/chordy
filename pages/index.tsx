@@ -14,13 +14,15 @@ export default function Home() {
       <div className="flex flex-col mt-30 items-center">
         <Chords />
       </div>
+      <div className="flex justify-center">
       <GuitarNeck />
+      </div>
     </div>
   )
 }
 
 const getChordString = (chord: Chord) => {
-  const signs: Record<ChordMode, any> = {
+  const signs: Record<ChordMode, string> = {
     maj: '',
     min: 'm',
     dim: '°'
