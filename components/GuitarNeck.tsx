@@ -6,14 +6,12 @@ import {
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 import { Note } from '../types/chords'
-import { useTailwindWindowSize } from '../utils/hooks/useTailwindWindowSize'
 
 export const GuitarNeck = () => {
   const fretPositions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
-
   return (
-    <div className="flex flex-row border-l-8 border-white rounded-lg overflow-hidden h-40 mt-20">
+    <div className="flex flex-row flex-nowrap border-l-8 border-white rounded-lg overflow-hidden h-40 mt-20 w-min">
       {fretPositions.map((fret) => (
         <Fret key={fret} fretPosition={fret} />
       ))}
@@ -33,7 +31,7 @@ const Fret = ({ fretPosition }: { fretPosition: number }) => {
   const singleDotFrets = [2, 4, 6, 8, 14, 16, 18]
 
   return (
-    <div className={`border-white border-t border-b ${getFretWidth(fretPosition)}`}>
+    <div className={`border-white border-t border-b ${getFretWidth(fretPosition)} inline-block`}>
       <div className="relative border-white border-x  border-b-2 border-b-slate-300  border-t-slate-300 w-full h-3 flex flex-row justify-center items-end z-0">
         <NoteDot stringIdx={0} {...{ fretPosition }} />
       </div>

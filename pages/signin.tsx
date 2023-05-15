@@ -16,7 +16,7 @@ export default function SigninPage() {
   if (session) return null
 
   return (
-    <Layout session={session}>
+    <Layout>
       <SigninForm />
     </Layout>
   )
