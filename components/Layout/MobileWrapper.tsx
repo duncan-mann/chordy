@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from 'react'
+import { PropsWithChildren } from 'react'
 import useWindowDimensions from '../../utils/hooks/useWindowDimensions'
 
 export const MobileWrapper = ({ children }: PropsWithChildren): JSX.Element => {

@@ -7,7 +7,7 @@ import { Note } from '../types/chords'
 import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 
 export const GuitarNeck = () => {
-  const { width, tailwindSize } = useWindowDimensions()
+  const { width } = useWindowDimensions()
   const fretPositions = [
     0,
     1,

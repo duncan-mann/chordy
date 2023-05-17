@@ -1,5 +1,3 @@
-//Displays options for root note, mode
-
 import { useState } from 'react'
 import { SelectorTooltip } from './SelectorTooltip'
 import { notes } from '../utils/music-theory'
