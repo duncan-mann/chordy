@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
 .btn {
   @apply bg-sky-700 hover:bg-sky-600 rounded-md px-4 py-2 text-white cursor-pointer;
 }

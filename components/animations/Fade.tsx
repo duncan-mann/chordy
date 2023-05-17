@@ -1,7 +1,9 @@
-import React, {PropsWithChildren} from 'react'
+import React, { HTMLAttributes, PropsWithChildren } from 'react'
 
-export const Fade = (props: PropsWithChildren) => {
-    return (
-        <div className='fade-in'>{props.children}</div>
-    )
+interface IFade {
+  className?: HTMLAttributes<HTMLDivElement>['className']
+}
+
+export const Fade = (props: PropsWithChildren<IFade>) => {
+  return <div className={`fade-in ${props.className}`}>{props.children}</div>
 }

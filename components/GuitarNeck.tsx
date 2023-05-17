@@ -1,21 +1,41 @@
 import React from 'react'
-import {
-  getCommonNotes,
-  getNoteFromFretPosition,
-} from '../utils/music-theory'
+
+import { getCommonNotes, getNoteFromFretPosition } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 import { Note } from '../types/chords'
+import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 
 export const GuitarNeck = () => {
-  const fretPositions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+  const { width } = useWindowDimensions()
+  const fretPositions = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    ...(width && width > 850 ? [12, 13, 14, 15, 16, 17, 18, 19] : []),
+  ]
 
   return (
-    <div className="flex flex-row flex-nowrap border-l-8 border-white rounded-lg overflow-hidden h-40 mt-20 w-min">
-      {fretPositions.map((fret) => (
-        <Fret key={fret} fretPosition={fret} />
-      ))}
-    </div>
+    <>
+      {/*UNCOMMENT FOR RESPONSIVE SCREEN SIZE HELPER*/}
+      {/* <h1 className="text-white">{width}</h1>
+      <br />
+      <h1 className="text-white">{tailwindSize}</h1> */}
+      <div className="flex flex-row flex-nowrap border-l-8 border-white rounded-lg overflow-hidden h-40 mt-20 w-min">
+        {fretPositions.map((fret) => (
+          <Fret key={fret} fretPosition={fret} />
+        ))}
+      </div>
+    </>
   )
 }
 
@@ -31,7 +51,11 @@ const Fret = ({ fretPosition }: { fretPosition: number }) => {
   const singleDotFrets = [2, 4, 6, 8, 14, 16, 18]
 
   return (
-    <div className={`border-white border-t border-b ${getFretWidth(fretPosition)} inline-block`}>
+    <div
+      className={`border-white border-t border-b ${getFretWidth(
+        fretPosition
+      )} inline-block`}
+    >
       <div className="relative border-white border-x  border-b-2 border-b-slate-300  border-t-slate-300 w-full h-3 flex flex-row justify-center items-end z-0">
         <NoteDot stringIdx={0} {...{ fretPosition }} />
       </div>
@@ -71,10 +95,10 @@ const NoteDot = ({
   stringIdx: number
   fretPosition: number
 }) => {
-  const { rootNote, mode, activeChord, keySig } = useKeyContext()
+  const { rootNote, mode, activeChord, keySig, scaleType } = useKeyContext()
   const note = getNoteFromFretPosition(stringIdx, fretPosition)
   const commonNotes = getCommonNotes(note) as string[]
- 
+
   const getBGColor = () => {
     const rootNote = activeChord ? activeChord.rootNote : keySig.rootNote
     return note === rootNote ? ' bg-sky-600' : 'bg-sky-300'
@@ -87,9 +111,14 @@ const NoteDot = ({
     return false
   }
 
-  const isInActiveChord = Boolean(activeChord && isActiveNote(activeChord.notes))
-  if (activeChord && !isInActiveChord) return null
-  if (!activeChord && !isActiveNote(keySig.notes)) return null
+  const isInActiveChord = Boolean(
+    activeChord && isActiveNote(activeChord.notes)
+  )
+
+  if (scaleType === 'pentatonic' && !isActiveNote(keySig.pentatonicScale))
+    return null
+  else if (activeChord && !isInActiveChord) return null
+  else if (!activeChord && !isActiveNote(keySig.notes)) return null
 
   return (
     <Fade key={`${note}-${rootNote}-${mode}`}>
