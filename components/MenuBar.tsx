@@ -38,31 +38,33 @@ export const MenuBar = () => {
     setDisplayRootNoteOptions((state) => !state)
 
   return (
-    <div className="h-15 mt-3 mb-28 ml-10 flex flex-row items-center">
-      <h3
-        className="font-inter font-thin text-4xl text-white mr-3 cursor-pointer"
-        onClick={toggleRootNoteDisplay}
-      >
-        {rootNote}
-      </h3>
+    <div className="flex flex-col">
+      <div className="h-15 mt-3 mb-28 ml-10 flex flex-row items-center">
+        <h3
+          className="font-inter font-thin text-4xl text-white mr-3 cursor-pointer"
+          onClick={toggleRootNoteDisplay}
+        >
+          {rootNote}
+        </h3>
+        <h3
+          className="font-inter font-thin text-2xl text-white cursor-pointer mr-5"
+          onClick={toggleMode}
+        >
+          {mode}
+        </h3>
+        <div
+          className={`${
+            scaleType !== 'pentatonic' && 'opacity-30'
+          } cursor-pointer`}
+          onClick={togglePentatonic}
+        >
+          <img src={'./pentagon.png'} className="h-7" />
+        </div>
+      </div>
       <SelectorTooltip
         options={rootNoteOptions}
         isDisplayed={displayRootNoteOptions}
       />
-      <h3
-        className="font-inter font-thin text-2xl text-white cursor-pointer mr-5"
-        onClick={toggleMode}
-      >
-        {mode}
-      </h3>
-      <div
-        className={`${
-          scaleType !== 'pentatonic' && 'opacity-30'
-        } cursor-pointer`}
-        onClick={togglePentatonic}
-      >
-        <img src={'./pentagon.png'} className="h-7" />
-      </div>
     </div>
   )
 }
