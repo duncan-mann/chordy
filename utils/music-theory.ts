@@ -8,6 +8,7 @@ import {
   ScaleType,
 } from '../types/chords'
 import { Chord, KeySignature, getChordNotes } from './get-chord'
+import { Scale } from 'tone'
 
 export const notes: Note[] = [
   'C',
@@ -221,7 +222,6 @@ export const getRomanChords = (mode: KeyMode, progression?: number[]) => {
   if (progression) return progression.map((idx) => romanChords[mode][idx])
   return romanChords[mode]
 }
-  
 
 export const getLetteredChords = (
   progression: number[],
@@ -248,13 +248,17 @@ export const useChordProgression = () => {
   const [mode, setMode] = useState<KeyMode>('maj')
   const [scaleType, setScaleType] = useState<ScaleType>('base')
 
+  const resetState = () => {
+    setScaleType('base')
+    setActiveChord(undefined)
+  }
+
   const romanChords = getRomanChords(mode, numberedChords)
 
   const chords = {
     romanNumerals: getRomanChords(mode, numberedChords),
   }
   const keySig = new KeySignature(rootNote, mode)
-
 
   return {
     keySig,
@@ -266,8 +270,14 @@ export const useChordProgression = () => {
     mode,
     setMode,
     scaleType,
-    setScaleType,
     activeChord,
-    setActiveChord,
+    setScaleType: (scaleType: ScaleType) => {
+      resetState()
+      setScaleType(scaleType)
+    },
+    setActiveChord: (chord?: Chord) => {
+      resetState()
+      setActiveChord(chord || undefined)
+    },
   }
 }
