@@ -281,3 +281,99 @@ export const useChordProgression = () => {
     },
   }
 }
+
+type ChordPosition = {
+  stringIdx: number
+  fret: number
+}
+
+type ChordShape = {
+  shapeName: 'C' | 'A' | 'G' | 'E' | 'D'
+  positions: ChordPosition[]
+}
+
+export type CAGEDPositions = {
+  [key: string]: string[]
+}
+
+export const getCAGEDPositions = (rootNote: Note): CAGEDPositions => {
+  const cagedShapes: ChordShape[] = [
+    {
+      shapeName: 'C',
+      positions: [
+        { stringIdx: 0, fret: 0 },
+        { stringIdx: 1, fret: 3 },
+        { stringIdx: 2, fret: 2 },
+        { stringIdx: 3, fret: 0 },
+        { stringIdx: 4, fret: -1 },
+      ],
+    },
+    {
+      shapeName: 'A',
+      positions: [
+        { stringIdx: 0, fret: -1 },
+        { stringIdx: 1, fret: 0 },
+        { stringIdx: 2, fret: 2 },
+        { stringIdx: 3, fret: 2 },
+        { stringIdx: 4, fret: 0 },
+      ],
+    },
+    {
+      shapeName: 'G',
+      positions: [
+        { stringIdx: 0, fret: 3 },
+        { stringIdx: 1, fret: 2 },
+        { stringIdx: 2, fret: 0 },
+        { stringIdx: 3, fret: 0 },
+        { stringIdx: 4, fret: 3 },
+      ],
+    },
+    {
+      shapeName: 'E',
+      positions: [
+        { stringIdx: 0, fret: 0 },
+        { stringIdx: 1, fret: 2 },
+        { stringIdx: 2, fret: 2 },
+        { stringIdx: 3, fret: 1 },
+        { stringIdx: 4, fret: 0 },
+      ],
+    },
+    {
+      shapeName: 'D',
+      positions: [
+        { stringIdx: 0, fret: -1 },
+        { stringIdx: 1, fret: -1 },
+        { stringIdx: 2, fret: 0 },
+        { stringIdx: 3, fret: 2 },
+        { stringIdx: 4, fret: 3 },
+      ],
+    },
+  ]
+
+  const cagedPositions: CAGEDPositions = {}
+
+  for (const shape of cagedShapes) {
+    for (const position of shape.positions) {
+      const stringIdx = position.stringIdx
+      const fret = position.fret
+      const rootNoteIdx = 'C C# D D# E F Gb G Ab A A# B'
+        .split(' ')
+        .indexOf(rootNote)
+
+      if (rootNoteIdx !== -1) {
+        for (let i = 0; i <= 20; i++) {
+          const shiftedFret = (fret + rootNoteIdx + i) % 12
+          const key = `${stringIdx}-${shiftedFret}`
+
+          if (!cagedPositions[key]) {
+            cagedPositions[key] = []
+          }
+
+          cagedPositions[key].push(shape.shapeName)
+        }
+      }
+    }
+  }
+
+  return cagedPositions
+}

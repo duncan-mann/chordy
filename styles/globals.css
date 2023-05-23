@@ -52,3 +52,14 @@
     opacity: 0;
   }
 }
+
+.focused {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  box-shadow: 0 0 10px 5px rgb(148 163 184); /* Example: glowy box-shadow */
+  z-index: 999; /* Ensure the wrapper is on top of other elements */
+  border-radius: 18px;
+}
+
+.focused * {
+  pointer-events: none; /* Disable pointer events on child elements when focused */
+}

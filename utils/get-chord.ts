@@ -1,4 +1,5 @@
 import { ChordMode, KeyMode, Note } from '../types/chords'
+import { CAGEDPositions, getCAGEDPositions } from './music-theory'
 
 const getFlatOrSharpNotes = (rootNote: Note): Note[] =>
   rootNote.includes('b')
@@ -102,6 +103,7 @@ export class KeySignature {
   notes: Note[]
   chords: Chord[]
   pentatonicScale: Note[]
+  cagedPositions: CAGEDPositions
 
   constructor(rootNote: Note, mode: KeyMode) {
     this.rootNote = rootNote
@@ -112,5 +114,6 @@ export class KeySignature {
       const chordMode = chordModes[mode]
       return new Chord(note, chordMode[idx])
     })
+    this.cagedPositions = getCAGEDPositions(rootNote)
   }
 }
