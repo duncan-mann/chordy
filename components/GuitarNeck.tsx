@@ -35,23 +35,12 @@ export const GuitarNeck = () => {
   )
 }
 
-const getFretWidth = (position: number): string | undefined => {
-  // if (position <= 4) return 'w-[90px]'
-  // if (position <= 8) return 'w-[82px]'
-  // if (position <= 12) return 'w-[67px]'
-  // if (position <= 16) return 'w-[57px]'
-  // if (position <= 20) return 'w-[50px]'
-  return 'w-[60px]'
-}
-
 const Fret = ({ fretPosition }: { fretPosition: number }) => {
   const singleDotFrets = [2, 4, 6, 8, 14, 16, 18]
   const leftFretThickness = fretPosition === 0 ? 'border-l-8' : ''
 
   return (
-    <div
-      className={`border-slate-800  ${getFretWidth(fretPosition)} inline-block`}
-    >
+    <div className={`border-slate-800 w-[60px] inline-block`}>
       <div
         className={`relative border-slate-800 border-b-2 border-b-slate-600 w-full h-3 flex flex-row justify-center items-end`}
       >

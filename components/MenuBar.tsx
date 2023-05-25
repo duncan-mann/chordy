@@ -1,38 +1,21 @@
-import { useRef } from 'react'
-import { SelectorTooltip } from './SelectorTooltip'
 import { notes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
-import { useOnClickOutside } from 'usehooks-ts'
 
 export const MenuBar = () => {
   const {
-    setRootNote,
     rootNote,
     mode,
     setMode,
-    setActiveChord,
     scaleType,
     setScaleType,
-    displayRootNoteOptions,
     setDisplayRootNoteOptions,
   } = useKeyContext()
-
-  const filteredNotes = notes.filter((note) => note !== rootNote)
 
   const togglePentatonic = () => {
     setDisplayRootNoteOptions(false)
     if (scaleType === 'base') return setScaleType('pentatonic')
     return setScaleType('base')
   }
-
-  const rootNoteOptions = filteredNotes.map((note) => ({
-    text: note,
-    onClick: () => {
-      setRootNote(note)
-      setActiveChord(undefined)
-      setDisplayRootNoteOptions(false)
-    },
-  }))
 
   const toggleMode = () => {
     setDisplayRootNoteOptions(false)

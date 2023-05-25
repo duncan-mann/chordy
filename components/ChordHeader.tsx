@@ -2,7 +2,6 @@ import { ChordMode } from '../types/chords'
 import { Chord } from '../utils/get-chord'
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
-import { FocusWrapper } from './animations/FocusWrapper'
 
 const getChordString = (chord: Chord) => {
   const signs: Record<ChordMode, string> = {
