@@ -1,4 +1,3 @@
-import { RefObject } from 'react'
 import { FocusId, FocusWrapper } from './animations/FocusWrapper'
 
 interface ISelectorTooltip {
@@ -28,7 +27,7 @@ export const SelectorTooltip = ({
             onClick={() => onClick()}
             className="w-9 h-9 rounded-sm mr-5 hover:border-solid hover:border-white"
           >
-            <p className="text-gray-300 font-infer font-thin text-center text-2xl cursor-pointer">
+            <p className="text-white font-poppins text-center text-2xl cursor-pointer">
               {text}
             </p>
           </div>

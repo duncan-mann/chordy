@@ -26,6 +26,10 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

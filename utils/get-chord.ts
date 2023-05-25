@@ -1,10 +1,13 @@
 import { ChordMode, KeyMode, Note } from '../types/chords'
-import { CAGEDPositions, getCAGEDPositions } from './music-theory'
+import { FLAT_FRET_NOTES, SHARP_FRET_NOTES } from './music-theory'
 
 const getFlatOrSharpNotes = (rootNote: Note): Note[] =>
   rootNote.includes('b')
     ? ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
     : ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+
+const getGuitarFretNotes = (rootNote: Note): Note[][] =>
+  rootNote.includes('b') ? FLAT_FRET_NOTES : SHARP_FRET_NOTES
 
 const getScaleNotes = (rootNote: Note, mode: KeyMode): Note[] => {
   const chromaticScale = getFlatOrSharpNotes(rootNote)
@@ -95,6 +98,19 @@ export class Chord {
     this.mode = mode
     this.notes = getChordNotes(rootNote, mode)
   }
+
+  public getNotePosition(note: Note) {
+    const position = this.notes.indexOf(note)
+    if (position === -1) return null
+    switch (position) {
+      case 0:
+        return 1
+      case 1:
+        return 3
+      case 2:
+        return 5
+    }
+  }
 }
 
 export class KeySignature {
@@ -103,17 +119,23 @@ export class KeySignature {
   notes: Note[]
   chords: Chord[]
   pentatonicScale: Note[]
-  cagedPositions: CAGEDPositions
+  guitarNotes: Note[][]
 
   constructor(rootNote: Note, mode: KeyMode) {
     this.rootNote = rootNote
     this.mode = mode
     this.notes = getScaleNotes(rootNote, mode)
     this.pentatonicScale = getPentatonicScale(rootNote, mode)
+    this.guitarNotes = getGuitarFretNotes(rootNote)
     this.chords = this.notes.map((note, idx) => {
       const chordMode = chordModes[mode]
       return new Chord(note, chordMode[idx])
     })
-    this.cagedPositions = getCAGEDPositions(rootNote)
+  }
+
+  public getNotePosition(note: Note) {
+    const position = this.notes.indexOf(note)
+    if (position === -1) return null
+    return position + 1
   }
 }

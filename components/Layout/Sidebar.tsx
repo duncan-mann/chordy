@@ -1,7 +1,9 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
-import { Props, useKeyContext } from '../KeyContext'
+import { useKeyContext } from '../KeyContext'
 import { Fade } from '../animations/Fade'
 import { useFeatureAutomation } from '../../utils/hooks/useFeatureAutomation'
+import { MenuBar } from '../MenuBar'
+import { Note } from '../../types/chords'
 
 interface WelcomeStep {
   title: string
@@ -11,7 +13,7 @@ interface WelcomeStep {
 }
 
 export const WelcomeSidebar = () => {
-  const { sidebarIsOpen, setSidebarIsOpen, setFocusedId } = useKeyContext()
+  const { sidebarIsOpen, setSidebarIsOpen } = useKeyContext()
   const [welcomeState, setWelcomeState] = useState<number>(0)
   const {
     automateSetRootNote,
@@ -112,5 +114,97 @@ const WelcomeContent = ({ step }: PropsWithChildren<{ step: WelcomeStep }>) => {
         </button>
       </div>
     </Fade>
+  )
+}
+
+export const SideBar = () => {
+  const whiteNotes: Note[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+  const { setRootNote, setActiveChord } = useKeyContext()
+  return (
+    <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center pt-10 w-[15%]">
+      <MenuBar />
+      <div className="flex flex-col items-center mt-16">
+        {/* <div className=" w-40 flex flex-row justify-evenly mb-10">
+          <p
+            onClick={() => setMode('maj')}
+            className="mr-3 rounded-md border border-1 border-white font-poppins w-10 p-1 text-center select-none hover:cursor-pointer"
+          >
+          maj
+          </p>
+          <p
+            onClick={() => setMode('min')}
+            className="mr-3 rounded-md border border-1 border-white w-10 font-poppins p-1 text-center select-none hover:cursor-pointer"
+          >
+            min
+          </p>
+        </div> */}
+        {whiteNotes.map((note) => (
+          // <div className="flex flex-row items-center mb-10">
+          //   <p
+          //     className={'text-xl hover:cursor-pointer hover:text-2xl'}
+          //     onClick={() => setRootNote(`${note}b` as Note)}
+          //   >
+          //     ♭
+          //   </p>
+          //   <p
+          //     className={
+          //       'font-poppins font-bold px-6 text-4xl hover:cursor-pointer hover:text-5xl'
+          //     }
+          //     onClick={() => {
+          //       setRootNote(note)
+          //       setActiveChord(undefined)
+          //     }}
+          //   >
+          //     {note}
+          //   </p>
+          //   <p
+          //     className={'text-xl hover:cursor-pointer hover:text-2xl'}
+          //     onClick={() => {
+          //       setActiveChord(undefined)
+          //       if (!['B', 'E'].includes(note))
+          //         return setRootNote(`${note}#` as Note)
+          //       setRootNote(note)
+          //     }}
+          //   >
+          //     ♯
+          //   </p>
+          // </div>
+          <div className="flex flex-row items-center mb-10">
+            <p
+              className={
+                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center'
+              }
+              onClick={() => setRootNote(`${note}b` as Note)}
+            >
+              ♭
+            </p>
+            <p
+              className={
+                'font-poppins font-bold mx-6 text-4xl hover:cursor-pointer transition ease-in-out hover:scale-110'
+              }
+              onClick={() => {
+                setRootNote(note)
+                setActiveChord(undefined)
+              }}
+            >
+              {note}
+            </p>
+            <p
+              className={
+                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center'
+              }
+              onClick={() => {
+                setActiveChord(undefined)
+                if (!['B', 'E'].includes(note))
+                  return setRootNote(`${note}#` as Note)
+                setRootNote(note)
+              }}
+            >
+              ♯
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
