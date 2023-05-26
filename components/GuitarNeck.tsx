@@ -75,6 +75,11 @@ const Fret = ({ fretPosition }: { fretPosition: number }) => {
         <NoteDot stringIdx={0} {...{ fretPosition }} />
       </div>
       <div className={`relative border-slate-800 w-full h-5`} />
+      <div className="bg-cagedc hidden" />
+      <div className="bg-cageda hidden" />
+      <div className="bg-cagedg hidden" />
+      <div className="bg-cagede hidden" />
+      <div className="bg-cagedd hidden" />
     </div>
   )
 }
