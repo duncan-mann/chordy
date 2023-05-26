@@ -75,7 +75,19 @@ export const SHARP_FRET_NOTES: Note[][] = [
   ['C', 'F', 'A#', 'D#', 'G', 'C'],
 ]
 
-export const scalesByKey: Record<Note, { [key: string]: string[] }> = {
+const fretNoteMapBySharpOrFlat = {
+  '#': SHARP_FRET_NOTES,
+  b: FLAT_FRET_NOTES,
+} as const
+
+export const getGuitarFretNotes = (rootNote: Note, mode: KeyMode) =>
+  fretNoteMapBySharpOrFlat[fretboardTypeByKey[rootNote][mode]]
+
+export const scalesByKey: Record<Note, { [key: string]: Note[] }> = {
+  Cb: {
+    maj: ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#'],
+    min: ['B', 'C#', 'D', 'E', 'F#', 'G', 'A'],
+  },
   C: {
     maj: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
     min: ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'],
@@ -86,7 +98,7 @@ export const scalesByKey: Record<Note, { [key: string]: string[] }> = {
   },
   Db: {
     maj: ['Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C'],
-    min: ['Eb', 'F', 'Gb', 'G', 'Ab', 'Bb', 'B'],
+    min: ['Db', 'Eb', 'Fb', 'Gb', 'A', 'A', 'Cb'],
   },
   D: {
     maj: ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
@@ -104,6 +116,15 @@ export const scalesByKey: Record<Note, { [key: string]: string[] }> = {
     maj: ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
     min: ['E', 'F#', 'G', 'A', 'B', 'C', 'D'],
   },
+  //TO_DO - FIGURE OUT E# AND B#
+  'E#': {
+    maj: ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
+    min: ['F', 'G', 'Ab', 'Bb', 'C', 'Db', 'Eb'],
+  },
+  Fb: {
+    maj: ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
+    min: ['E', 'F#', 'G', 'A', 'B', 'C', 'D'],
+  },
   F: {
     maj: ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
     min: ['F', 'G', 'Ab', 'Bb', 'C', 'Db', 'Eb'],
@@ -114,7 +135,7 @@ export const scalesByKey: Record<Note, { [key: string]: string[] }> = {
   },
   Gb: {
     maj: ['Gb', 'Ab', 'Bb', 'B', 'Db', 'Eb', 'E'],
-    min: ['Gb', 'Ab', 'B', 'C#', 'Eb', 'E', 'Gb'],
+    min: ['Gb', 'Ab', 'A', 'B', 'Db', 'D', 'E'],
   },
   G: {
     maj: ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
@@ -144,76 +165,97 @@ export const scalesByKey: Record<Note, { [key: string]: string[] }> = {
     maj: ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#'],
     min: ['B', 'C#', 'D', 'E', 'F#', 'G', 'A'],
   },
+  'B#': {
+    maj: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+    min: ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'],
+  },
 }
 
-export const pentatonicByKey: Record<string, { [key: string]: string[] }> = {
+export const fretboardTypeByKey: Record<Note, { [key: string]: 'b' | '#' }> = {
+  Cb: {
+    maj: '#',
+    min: '#',
+  },
   C: {
-    maj: ['C', 'D', 'E', 'G', 'A'],
-    min: ['A#', 'C', 'D#', 'F', 'G'],
+    maj: '#',
+    min: 'b',
   },
   'C#': {
-    maj: ['C#', 'D#', 'F', 'G#', 'A#'],
-    min: ['B', 'C#', 'E', 'F#', 'A'],
+    maj: '#',
+    min: '#',
   },
   Db: {
-    maj: ['Db', 'Eb', 'F', 'Ab', 'Bb'],
-    min: ['B', 'Db', 'E', 'F#', 'A'],
+    maj: 'b',
+    min: 'b',
   },
   D: {
-    maj: ['D', 'E', 'F#', 'A', 'B'],
-    min: ['C', 'D', 'F', 'G', 'A#'],
+    maj: '#',
+    min: 'b',
   },
   'D#': {
-    maj: ['D#', 'F', 'G', 'A#', 'C'],
-    min: ['C#', 'D#', 'F#', 'G#', 'B'],
+    maj: '#',
+    min: '#',
   },
   Eb: {
-    maj: ['Eb', 'F', 'G', 'Bb', 'C'],
-    min: ['C#', 'Eb', 'F#', 'G#', 'B'],
+    maj: 'b',
+    min: 'b',
   },
   E: {
-    maj: ['E', 'F#', 'G#', 'B', 'C#'],
-    min: ['D', 'E', 'G', 'A', 'B#'],
+    maj: '#',
+    min: '#',
+  },
+  //TO_DO - FIGURE OUT E# AND B#
+  'E#': {
+    maj: '#',
+    min: '#',
+  },
+  Fb: {
+    maj: '#',
+    min: '#',
   },
   F: {
-    maj: ['F', 'G', 'A', 'C', 'D'],
-    min: ['D#', 'F', 'G#', 'A#', 'C#'],
+    maj: 'b',
+    min: 'b',
   },
   'F#': {
-    maj: ['F#', 'G#', 'A#', 'C#', 'D#'],
-    min: ['D#', 'F#', 'G#', 'B', 'C#'],
+    maj: '#',
+    min: '#',
   },
   Gb: {
-    maj: ['Gb', 'Ab', 'Bb', 'Db', 'Eb'],
-    min: ['E', 'Gb', 'A', 'B', 'D'],
+    maj: 'b',
+    min: 'b',
   },
   G: {
-    maj: ['G', 'A', 'B', 'D', 'E'],
-    min: ['F', 'G', 'A#', 'C', 'D#'],
+    maj: '#',
+    min: 'b',
   },
   'G#': {
-    maj: ['G#', 'A#', 'C', 'D#', 'F'],
-    min: ['F#', 'G#', 'A#', 'C#', 'E'],
+    maj: '#',
+    min: '#',
   },
   Ab: {
-    maj: ['Ab', 'Bb', 'C', 'Eb', 'F'],
-    min: ['G', 'Ab', 'B', 'Db', 'E'],
+    maj: 'b',
+    min: 'b',
   },
   A: {
-    maj: ['A', 'B', 'C#', 'E', 'F#'],
-    min: ['G', 'A', 'C', 'D', 'E#'],
+    maj: '#',
+    min: '#',
   },
   'A#': {
-    maj: ['A#', 'C', 'D', 'F', 'G'],
-    min: ['G#', 'A#', 'C#', 'D#', 'F#'],
+    maj: '#',
+    min: '#',
   },
   Bb: {
-    maj: ['Bb', 'C', 'D', 'F', 'G'],
-    min: ['G#', 'Bb', 'C#', 'D#', 'F#'],
+    maj: 'b',
+    min: 'b',
   },
   B: {
-    maj: ['B', 'C#', 'D#', 'F#', 'G#'],
-    min: ['A', 'B', 'D', 'E', 'F##'],
+    maj: '#',
+    min: '#',
+  },
+  'B#': {
+    maj: '#',
+    min: '#',
   },
 }
 
@@ -223,6 +265,10 @@ export const commonNotes: Note[][] = [
   ['F#', 'Gb'],
   ['G#', 'Ab'],
   ['A#', 'Bb'],
+  ['E#', 'F'],
+  ['Fb', 'E'],
+  ['B#', 'C'],
+  ['Cb', 'B'],
 ]
 
 export const getCommonNotes = (note: Note): Note[] => {

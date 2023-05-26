@@ -1,4 +1,5 @@
 export type Note =
+  | 'Cb'
   | 'C'
   | 'C#'
   | 'Db'
@@ -6,6 +7,8 @@ export type Note =
   | 'D#'
   | 'Eb'
   | 'E'
+  | 'E#'
+  | 'Fb'
   | 'F'
   | 'F#'
   | 'Gb'
@@ -16,6 +19,7 @@ export type Note =
   | 'A#'
   | 'Bb'
   | 'B'
+  | 'B#'
 
 //The uppercase Roman numerals represent major chords, the lowercase Roman numerals represent minor chords,
 //and the "m" suffix indicates a minor chord.

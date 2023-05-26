@@ -117,10 +117,7 @@ const NoteDot = ({
     activeChord && isActiveNote(activeChord.notes)
   )
   const logNoteData = () => {
-    console.log('Fretboard', keySig.guitarNotes)
-    console.log('stringIdx', stringIdx)
-    console.log('fret', fretPosition)
-    console.log('note', note)
+    console.log('KeySig', keySig)
   }
 
   if (scaleType === 'pentatonic' && !isActiveNote(keySig.pentatonicScale))

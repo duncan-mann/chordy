@@ -1,46 +1,33 @@
 import { ChordMode, KeyMode, Note } from '../types/chords'
-import { FLAT_FRET_NOTES, SHARP_FRET_NOTES, scalesByKey } from './music-theory'
+import { getGuitarFretNotes, scalesByKey } from './music-theory'
 
 const getFlatOrSharpNotes = (rootNote: Note): Note[] =>
   rootNote.includes('b')
     ? ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
     : ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
-const getGuitarFretNotes = (rootNote: Note): Note[][] =>
-  rootNote.includes('b') ? FLAT_FRET_NOTES : SHARP_FRET_NOTES
-
 const getScaleNotes = (rootNote: Note, mode: KeyMode): Note[] =>
   scalesByKey[rootNote][mode] as Note[]
 
-// const getScaleNotes = (rootNote: Note, mode: KeyMode): Note[] => {
-//   const chromaticScale = getFlatOrSharpNotes(rootNote)
-//   const rootNoteIndex = chromaticScale.indexOf(rootNote)
-//   if (rootNoteIndex === -1) {
-//     throw new Error(`Invalid root note: ${rootNote}`)
-//   }
+const evaluateTheoreticalNotes = (note: Note): Note => {
+  switch (note) {
+    case 'E#':
+      return 'F'
+    case 'Fb':
+      return 'E'
+    case 'B#':
+      return 'C'
+    case 'Cb':
+      return 'B'
+    default:
+      return note
+  }
+}
 
-//   let scaleIntervals: number[]
-//   if (mode === 'maj') {
-//     scaleIntervals = [0, 2, 4, 5, 7, 9, 11]
-//   } else if (mode === 'min') {
-//     scaleIntervals = [0, 2, 3, 5, 7, 8, 10]
-//   } else {
-//     throw new Error(`Invalid mode: ${mode}`)
-//   }
-
-//   const scaleNotes = scaleIntervals.map(
-//     (interval) => chromaticScale[(rootNoteIndex + interval) % 12]
-//   )
-
-//   return scaleNotes
-// }
-
-export const getChordNotes = (rootNote: Note, mode: ChordMode): Note[] => {
+export const getChordNotes = (note: Note, mode: ChordMode): Note[] => {
+  const rootNote = evaluateTheoreticalNotes(note)
   const chromaticScale = getFlatOrSharpNotes(rootNote)
   const rootNoteIndex = chromaticScale.indexOf(rootNote)
-  if (rootNoteIndex === -1) {
-    throw new Error(`Invalid root note: ${rootNote}`)
-  }
 
   switch (mode) {
     case 'maj':
@@ -66,16 +53,14 @@ export const getChordNotes = (rootNote: Note, mode: ChordMode): Note[] => {
   }
 }
 
-const getPentatonicScale = (rootNote: Note, mode: KeyMode): Note[] => {
-  const notes = getFlatOrSharpNotes(rootNote)
+const getPentatonicScale = (note: Note, mode: KeyMode): Note[] => {
+  const rootNote = evaluateTheoreticalNotes(note)
+  const notes = scalesByKey[rootNote][mode]
   const rootNoteIndex = notes.indexOf(rootNote)
-  if (rootNoteIndex === -1) {
-    throw new Error('Invalid root note')
-  }
 
   const intervals: Record<KeyMode, number[]> = {
-    maj: [0, 2, 4, 7, 9],
-    min: [0, 3, 5, 7, 10],
+    maj: [0, 1, 2, 4, 5],
+    min: [0, 2, 3, 4, 6],
   }
 
   const pentatonicNotes = intervals[mode].map((interval) => {
@@ -129,7 +114,7 @@ export class KeySignature {
     this.mode = mode
     this.notes = getScaleNotes(rootNote, mode)
     this.pentatonicScale = getPentatonicScale(rootNote, mode)
-    this.guitarNotes = getGuitarFretNotes(rootNote)
+    this.guitarNotes = getGuitarFretNotes(rootNote, mode)
     this.chords = this.notes.map((note, idx) => {
       const chordMode = chordModes[mode]
       return new Chord(note, chordMode[idx])
