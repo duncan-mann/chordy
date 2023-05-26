@@ -7,8 +7,7 @@ import {
   Note,
   ScaleType,
 } from '../types/chords'
-import { Chord, KeySignature, getChordNotes } from './get-chord'
-import { Scale } from 'tone'
+import { Chord, KeySignature } from './get-chord'
 
 export const notes: Note[] = [
   'C',
@@ -28,29 +27,6 @@ export const notes: Note[] = [
   'A#',
   'Bb',
   'B',
-]
-
-export const FRET_NOTES: Note[][] = [
-  ['F', 'Bb', 'Eb', 'Ab', 'C', 'F'],
-  ['Gb', 'B', 'E', 'A', 'Db', 'Gb'],
-  ['G', 'C', 'F', 'Bb', 'D', 'G'],
-  ['Ab', 'Db', 'Gb', 'B', 'Eb', 'Ab'],
-  ['A', 'D', 'G', 'C', 'E', 'A'],
-  ['Bb', 'Eb', 'Ab', 'Db', 'F', 'Bb'],
-  ['B', 'E', 'A', 'D', 'Gb', 'B'],
-  ['C', 'F', 'Bb', 'Eb', 'G', 'C'],
-  ['Db', 'Gb', 'B', 'E', 'Ab', 'Db'],
-  ['D', 'G', 'C', 'F', 'A', 'D'],
-  ['Eb', 'Ab', 'Db', 'Gb', 'Bb', 'Eb'],
-  ['E', 'A', 'D', 'G', 'B', 'E'],
-  ['F', 'Bb', 'Eb', 'Ab', 'C', 'F'],
-  ['Gb', 'B', 'E', 'A', 'Db', 'Gb'],
-  ['G', 'C', 'F', 'Bb', 'D', 'G'],
-  ['Ab', 'Db', 'Gb', 'B', 'Eb', 'Ab'],
-  ['A', 'D', 'G', 'C', 'E', 'A'],
-  ['Bb', 'Eb', 'Ab', 'Db', 'F', 'Bb'],
-  ['B', 'E', 'A', 'D', 'Gb', 'B'],
-  ['C', 'F', 'Bb', 'Eb', 'G', 'C'],
 ]
 
 export const FLAT_FRET_NOTES: Note[][] = [
@@ -82,7 +58,7 @@ export const SHARP_FRET_NOTES: Note[][] = [
   ['G', 'C', 'F', 'A#', 'D', 'G'],
   ['G#', 'C#', 'F#', 'B', 'D#', 'G#'],
   ['A', 'D', 'G', 'C', 'E', 'A'],
-  ['A#', '', 'G#', 'C#', 'F', 'A#'],
+  ['A#', 'D#', 'G#', 'C#', 'F', 'A#'],
   ['B', 'E', 'A', 'D', 'F#', 'B'],
   ['C', 'F', 'A#', 'D#', 'G', 'C'],
   ['C#', 'F#', 'B', 'E', 'G#', 'C#'],
@@ -268,18 +244,6 @@ export const getRomanChords = (mode: KeyMode, progression?: number[]) => {
   if (progression) return progression.map((idx) => romanChords[mode][idx])
   return romanChords[mode]
 }
-
-export const getLetteredChords = (
-  progression: number[],
-  rootNote: Note,
-  mode: ChordMode
-) => {
-  const keyChords = chordsByKey[rootNote][mode]
-  return progression.map((idx) => keyChords[idx])
-}
-
-export const getNoteFromFretPosition = (string: number, fret: number) =>
-  FRET_NOTES[fret][string]
 
 export const getChordMode = (chord: string) => {
   if (chord.includes('m')) return 'min'
