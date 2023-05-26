@@ -78,11 +78,11 @@ export const FLAT_FRET_NOTES: Note[][] = [
 
 export const SHARP_FRET_NOTES: Note[][] = [
   ['F', 'A#', 'D#', 'G#', 'C', 'F'],
-  ['A#', 'B', 'E', 'A', 'C#', 'A#'],
+  ['F#', 'B', 'E', 'A', 'C#', 'F#'],
   ['G', 'C', 'F', 'A#', 'D', 'G'],
   ['G#', 'C#', 'F#', 'B', 'D#', 'G#'],
   ['A', 'D', 'G', 'C', 'E', 'A'],
-  ['A#', 'Eb', 'G#', 'C#', 'F', 'A#'],
+  ['A#', '', 'G#', 'C#', 'F', 'A#'],
   ['B', 'E', 'A', 'D', 'F#', 'B'],
   ['C', 'F', 'A#', 'D#', 'G', 'C'],
   ['C#', 'F#', 'B', 'E', 'G#', 'C#'],
@@ -90,7 +90,7 @@ export const SHARP_FRET_NOTES: Note[][] = [
   ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'],
   ['E', 'A', 'D', 'G', 'B', 'E'],
   ['F', 'A#', 'D#', 'G#', 'C', 'F'],
-  ['A#', 'B', 'E', 'A', 'C#', 'A#'],
+  ['F#', 'B', 'E', 'A', 'C#', 'F#'],
   ['G', 'C', 'F', 'A#', 'D', 'G'],
   ['G#', 'Db', 'F#', 'B', 'D#', 'G#'],
   ['A', 'D', 'G', 'C', 'E', 'A'],
@@ -99,74 +99,74 @@ export const SHARP_FRET_NOTES: Note[][] = [
   ['C', 'F', 'A#', 'D#', 'G', 'C'],
 ]
 
-export const chordsByKey: Record<string, { [key: string]: string[] }> = {
+export const scalesByKey: Record<Note, { [key: string]: string[] }> = {
   C: {
-    maj: ['C', 'Dm', 'Em', 'F', 'G', 'Am', 'Bo'],
-    min: ['Cm', 'Do', 'Eb', 'Fm', 'Gm', 'Ab', 'Bb'],
+    maj: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+    min: ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'],
   },
   'C#': {
-    maj: ['C#', 'D#m', 'Fm', 'F#', 'G#', 'A#m', 'Co'],
-    min: ['C#m', 'D#o', 'E', 'F#m', 'G#m', 'A', 'B'],
+    maj: ['C#', 'D#', 'F', 'F#', 'G#', 'A#', 'C'],
+    min: ['C#', 'D#', 'E', 'F#', 'G#', 'A', 'B'],
   },
   Db: {
-    maj: ['Db', 'Ebm', 'Fm', 'Gb', 'Ab', 'Bbm', 'Co'],
-    min: ['Ebm', 'Fo', 'Gb', 'Gbm', 'Abm', 'Bb', 'B'],
+    maj: ['Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C'],
+    min: ['Eb', 'F', 'Gb', 'G', 'Ab', 'Bb', 'B'],
   },
   D: {
-    maj: ['D', 'Em', 'F#m', 'G', 'A', 'Bm', 'C#o'],
-    min: ['Dm', 'Eo', 'F', 'Gm', 'Am', 'Bb', 'C'],
+    maj: ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
+    min: ['D', 'E', 'F', 'G', 'A', 'Bb', 'C'],
   },
   'D#': {
-    maj: ['D#', 'Fm', 'Gm', 'G#', 'A#', 'Cm', 'Do'],
-    min: ['D#m', 'Fo', 'Gb', 'G#m', 'A#m', 'B', 'C#'],
+    maj: ['D#', 'F', 'G', 'G#', 'A#', 'C', 'D'],
+    min: ['D#', 'E#', 'F#', 'G#', 'A#', 'B', 'C#'],
   },
   Eb: {
-    maj: ['Eb', 'Fm', 'Gm', 'Ab', 'Bb', 'Cm', 'Do'],
-    min: ['Ebm', 'Fo', 'Gb', 'Gbm', 'Abm', 'Bb', 'B'],
+    maj: ['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D'],
+    min: ['Eb', 'F', 'Gb', 'G', 'Ab', 'Bb', 'B'],
   },
   E: {
-    maj: ['E', 'F#m', 'G#m', 'A', 'B', 'C#m', 'D#o'],
-    min: ['Em', 'F#o', 'G', 'Am', 'Bm', 'C', 'D'],
+    maj: ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
+    min: ['E', 'F#', 'G', 'A', 'B', 'C', 'D'],
   },
   F: {
-    maj: ['F', 'Gm', 'Am', 'Bbm', 'C', 'Dm', 'Eo'],
-    min: ['Fm', 'Go', 'Ab', 'Bbm', 'Cm', 'Db', 'Eb'],
+    maj: ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
+    min: ['F', 'G', 'Ab', 'Bb', 'C', 'Db', 'Eb'],
   },
   'F#': {
-    maj: ['F#', 'G#m', 'A#m', 'B', 'C#', 'D#m', 'Fo'],
-    min: ['F#m', 'G#o', 'A', 'Bm', 'C#m', 'D', 'E'],
+    maj: ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E'],
+    min: ['F#', 'G#', 'A', 'B', 'C#', 'D', 'E'],
   },
   Gb: {
-    maj: ['Gb', 'Abm', 'Bbm', 'B', 'Db', 'Ebm', 'Fo'],
-    min: ['Gbm', 'Abo', 'B', 'C#m', 'Ebm', 'E', 'Gb'],
+    maj: ['Gb', 'Ab', 'Bb', 'B', 'Db', 'Eb', 'E'],
+    min: ['Gb', 'Ab', 'B', 'C#', 'Eb', 'E', 'Gb'],
   },
   G: {
-    maj: ['G', 'Am', 'Bm', 'C', 'D', 'Em', 'F#o'],
-    min: ['Gm', 'Ao', 'Bb', 'Cm', 'Dm', 'Eb', 'F'],
+    maj: ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
+    min: ['G', 'A', 'Bb', 'C', 'D', 'Eb', 'F'],
   },
   'G#': {
-    maj: ['G#', 'A#m', 'Cm', 'C#', 'D#', 'Fm', 'Go'],
-    min: ['G#m', 'A#o', 'B', 'C#m', 'D#m', 'E', 'F#'],
+    maj: ['G#', 'A#', 'C', 'C#', 'D#', 'F', 'G'],
+    min: ['G#', 'A#', 'B', 'C#', 'D#', 'E', 'F#'],
   },
   Ab: {
-    maj: ['Ab', 'Bbm', 'Cm', 'Db', 'Eb', 'Fm', 'Go'],
-    min: ['Abm', 'Bbo', 'B', 'C#m', 'Ebm', 'E', 'Gb'],
+    maj: ['Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G'],
+    min: ['Ab', 'Bb', 'B', 'C#', 'Eb', 'E', 'Gb'],
   },
   A: {
-    maj: ['A', 'Bm', 'C#m', 'D', 'E', 'F#m', 'G#o'],
-    min: ['Am', 'Bo', 'C', 'Dm', 'Em', 'F', 'G'],
+    maj: ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
+    min: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
   },
   'A#': {
-    maj: ['A#', 'Cm', 'Dm', 'D#', 'F', 'Gm', 'Ao'],
-    min: ['A#m', 'Co', 'C#', 'D#m', 'Fm', 'Gb', 'G#'],
+    maj: ['A#', 'C', 'D', 'D#', 'F', 'G', 'A'],
+    min: ['A#', 'C', 'C#', 'D#', 'F', 'Gb', 'G#'],
   },
   Bb: {
-    maj: ['Bb', 'Cm', 'Dm', 'Eb', 'F', 'Gm', 'Ao'],
-    min: ['Bbm', 'Co', 'Db', 'Ebm', 'Fm', 'Gb', 'Ab'],
+    maj: ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
+    min: ['Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab'],
   },
   B: {
-    maj: ['B', 'C#m', 'D#m', 'E', 'F#', 'G#m', 'A#o'],
-    min: ['Bm', 'C#o', 'D', 'Em', 'F#m', 'G', 'A'],
+    maj: ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#'],
+    min: ['B', 'C#', 'D', 'E', 'F#', 'G', 'A'],
   },
 }
 

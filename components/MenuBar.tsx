@@ -1,4 +1,3 @@
-import { notes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
 
 export const MenuBar = () => {

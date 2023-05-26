@@ -1,5 +1,5 @@
 import { ChordMode, KeyMode, Note } from '../types/chords'
-import { FLAT_FRET_NOTES, SHARP_FRET_NOTES } from './music-theory'
+import { FLAT_FRET_NOTES, SHARP_FRET_NOTES, scalesByKey } from './music-theory'
 
 const getFlatOrSharpNotes = (rootNote: Note): Note[] =>
   rootNote.includes('b')
@@ -9,28 +9,31 @@ const getFlatOrSharpNotes = (rootNote: Note): Note[] =>
 const getGuitarFretNotes = (rootNote: Note): Note[][] =>
   rootNote.includes('b') ? FLAT_FRET_NOTES : SHARP_FRET_NOTES
 
-const getScaleNotes = (rootNote: Note, mode: KeyMode): Note[] => {
-  const chromaticScale = getFlatOrSharpNotes(rootNote)
-  const rootNoteIndex = chromaticScale.indexOf(rootNote)
-  if (rootNoteIndex === -1) {
-    throw new Error(`Invalid root note: ${rootNote}`)
-  }
+const getScaleNotes = (rootNote: Note, mode: KeyMode): Note[] =>
+  scalesByKey[rootNote][mode] as Note[]
 
-  let scaleIntervals: number[]
-  if (mode === 'maj') {
-    scaleIntervals = [0, 2, 4, 5, 7, 9, 11]
-  } else if (mode === 'min') {
-    scaleIntervals = [0, 2, 3, 5, 7, 8, 10]
-  } else {
-    throw new Error(`Invalid mode: ${mode}`)
-  }
+// const getScaleNotes = (rootNote: Note, mode: KeyMode): Note[] => {
+//   const chromaticScale = getFlatOrSharpNotes(rootNote)
+//   const rootNoteIndex = chromaticScale.indexOf(rootNote)
+//   if (rootNoteIndex === -1) {
+//     throw new Error(`Invalid root note: ${rootNote}`)
+//   }
 
-  const scaleNotes = scaleIntervals.map(
-    (interval) => chromaticScale[(rootNoteIndex + interval) % 12]
-  )
+//   let scaleIntervals: number[]
+//   if (mode === 'maj') {
+//     scaleIntervals = [0, 2, 4, 5, 7, 9, 11]
+//   } else if (mode === 'min') {
+//     scaleIntervals = [0, 2, 3, 5, 7, 8, 10]
+//   } else {
+//     throw new Error(`Invalid mode: ${mode}`)
+//   }
 
-  return scaleNotes
-}
+//   const scaleNotes = scaleIntervals.map(
+//     (interval) => chromaticScale[(rootNoteIndex + interval) % 12]
+//   )
+
+//   return scaleNotes
+// }
 
 export const getChordNotes = (rootNote: Note, mode: ChordMode): Note[] => {
   const chromaticScale = getFlatOrSharpNotes(rootNote)
