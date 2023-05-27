@@ -1,6 +1,5 @@
 import { ChordMode } from '../types/chords'
 import { Chord } from '../utils/get-chord'
-import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 
@@ -15,7 +14,6 @@ const getChordString = (chord: Chord) => {
 
 export const Chords = () => {
   const { romanChords, keySig, setActiveChord, activeChord } = useKeyContext()
-  const { width } = useWindowDimensions()
   return (
     <div className="mt-30 flex flex-wrap justify-center">
       <Fade
