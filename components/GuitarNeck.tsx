@@ -148,7 +148,7 @@ const NoteDot = ({
             cagedColors[1] || cagedColors[0]
           }`}
         />
-        <p className="font-poppins font-bold absolute text-white text-xs text-center">
+        <p className="font-poppins font-bold absolute text-white text-xs text-center cursor-default">
           {note}
         </p>
       </div>

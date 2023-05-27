@@ -130,7 +130,7 @@ export const SideBar = () => {
           <div className="flex flex-row items-center mb-10" key={note}>
             <p
               className={
-                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-non'
+                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none'
               }
               onClick={() => {
                 setActiveChord(undefined)
@@ -154,7 +154,7 @@ export const SideBar = () => {
             </p>
             <p
               className={
-                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-non'
+                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none'
               }
               onClick={() => {
                 setActiveChord(undefined)
