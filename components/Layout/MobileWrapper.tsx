@@ -3,7 +3,7 @@ import useWindowDimensions from '../../utils/hooks/useWindowDimensions'
 
 export const MobileWrapper = ({ children }: PropsWithChildren): JSX.Element => {
   const { width } = useWindowDimensions()
-  return width < 400 ? (
+  return width < 475 ? (
     <div
       className={`w-full flex flex-col min-h-screen bg-[url('./images/CAGED-Background.jpeg')] bg-no-repeat bg-center bg-cover pt-32`}
     >

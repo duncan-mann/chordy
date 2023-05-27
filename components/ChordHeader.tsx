@@ -41,7 +41,7 @@ export const Chords = () => {
               </p>
               <p
                 key={chord.rootNote}
-                className={` font-poppins text-center text-sm md:text-md lg:text-xl select-none w-20 md:w-28 rounded-full py-1 px-4 ${fontWeight} ${buttonStyles}
+                className={` font-poppins text-center text-sm md:text-md lg:text-xl select-none w-20 md:w-28 rounded-full py-1 px-4 hover:scale-110 transition ease-in-out ${fontWeight} ${buttonStyles}
                 `}
               >
                 {getChordString(chord)}
