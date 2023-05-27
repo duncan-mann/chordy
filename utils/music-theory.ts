@@ -110,7 +110,7 @@ export const scalesByKey: Record<Note, { [key: string]: Note[] }> = {
   },
   Eb: {
     maj: ['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D'],
-    min: ['Eb', 'F', 'Gb', 'G', 'Ab', 'Bb', 'B'],
+    min: ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'B', 'Db'],
   },
   E: {
     maj: ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],

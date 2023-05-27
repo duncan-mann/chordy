@@ -4,6 +4,7 @@ import { Fade } from '../animations/Fade'
 import { useFeatureAutomation } from '../../utils/hooks/useFeatureAutomation'
 import { MenuBar } from '../MenuBar'
 import { Note } from '../../types/chords'
+import useWindowDimensions from '../../utils/hooks/useWindowDimensions'
 
 interface WelcomeStep {
   title: string
@@ -11,6 +12,8 @@ interface WelcomeStep {
   buttonText: string
   buttonAction?: () => void
 }
+
+export const MENU_BAR_SCREEN_SIZE = 785
 
 export const WelcomeSidebar = () => {
   const { sidebarIsOpen, setSidebarIsOpen } = useKeyContext()
@@ -31,7 +34,7 @@ export const WelcomeSidebar = () => {
 
   const steps: WelcomeStep[] = [
     {
-      title: 'Welcome to Fretboard.fyi!',
+      title: 'Welcome to my Fretboard app!',
       description:
         'With Fretboard.fyi, you can easily navigate the guitar fretboard, visualize scales and chords in any key, and discover chord voicings across the neck.',
       buttonText: 'Get started',
@@ -120,17 +123,25 @@ const WelcomeContent = ({ step }: PropsWithChildren<{ step: WelcomeStep }>) => {
 export const SideBar = () => {
   const whiteNotes: Note[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
   const { setRootNote, setActiveChord } = useKeyContext()
+  const { width, tailwindSize } = useWindowDimensions()
   return (
-    <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center pt-10 w-[15%]">
-      <MenuBar />
-      <div className="flex flex-col items-center mt-16">
+    <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center pt-10 w-[17%]">
+      {width > 785 && <MenuBar />}
+      <p className="text-white">{width}</p>
+      <p className="text-white">{tailwindSize}</p>
+      <div className="flex flex-col items-center justify-center h-full ">
         {whiteNotes.map((note) => (
           <div className="flex flex-row items-center mb-10" key={note}>
             <p
               className={
                 'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center'
               }
-              onClick={() => setRootNote(`${note}b` as Note)}
+              onClick={() => {
+                setActiveChord(undefined)
+                if (note === 'F') return setRootNote('E')
+                if (note === 'C') return setRootNote('B')
+                setRootNote(`${note}b` as Note)
+              }}
             >
               ♭
             </p>
@@ -139,8 +150,8 @@ export const SideBar = () => {
                 'font-poppins font-bold mx-[1vw] text-4xl hover:cursor-pointer transition ease-in-out hover:scale-110'
               }
               onClick={() => {
-                setRootNote(note)
                 setActiveChord(undefined)
+                setRootNote(note)
               }}
             >
               {note}
@@ -151,9 +162,9 @@ export const SideBar = () => {
               }
               onClick={() => {
                 setActiveChord(undefined)
-                if (!['B', 'E'].includes(note))
-                  return setRootNote(`${note}#` as Note)
-                setRootNote(note)
+                if (note === 'B') return setRootNote('C')
+                if (note === 'E') return setRootNote('F')
+                setRootNote(`${note}#` as Note)
               }}
             >
               ♯

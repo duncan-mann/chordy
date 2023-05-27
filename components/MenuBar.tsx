@@ -1,6 +1,10 @@
 import { useKeyContext } from './KeyContext'
 
-export const MenuBar = () => {
+interface IMenuBar {
+  theme?: 'light' | 'dark'
+}
+
+export const MenuBar = ({ theme = 'light' }: IMenuBar) => {
   const {
     rootNote,
     mode,
@@ -9,6 +13,17 @@ export const MenuBar = () => {
     setScaleType,
     setDisplayRootNoteOptions,
   } = useKeyContext()
+  const themeStyles = {
+    light: {
+      textColor: 'white',
+      pentagonImgSrc: './pentagon.png',
+    },
+    dark: {
+      textColor: 'cageda',
+      pentagonImgSrc: './pentagon-black.png',
+    },
+  }
+  const styles = themeStyles[theme]
 
   const togglePentatonic = () => {
     setDisplayRootNoteOptions(false)
@@ -24,17 +39,17 @@ export const MenuBar = () => {
     setDisplayRootNoteOptions((state) => !state)
 
   return (
-    <div className="flex flex-col items-center h-20">
-      <div className="mt-3 mb-28 flex flex-row items-center justify-center">
+    <div className="flex flex-col items-center">
+      <div className="mt-3 flex flex-row items-center justify-center">
         <div className={'flex flex-row items-center p-1'}>
           <h3
-            className="font-poppins font-bold text-4xl text-white mr-3 cursor-pointer"
+            className={`font-poppins font-bold text-4xl text-${styles.textColor} mr-3 cursor-pointer`}
             onClick={toggleRootNoteDisplay}
           >
             {rootNote}
           </h3>
           <h3
-            className="font-poppins font-bold text-2xl text-white cursor-pointer"
+            className={`font-poppins font-bold text-2xl text-${styles.textColor} cursor-pointer`}
             onClick={toggleMode}
           >
             {mode}
@@ -46,7 +61,7 @@ export const MenuBar = () => {
           } cursor-pointer p-2 rounded-full h-12 w-12`}
           onClick={togglePentatonic}
         >
-          <img src={'./pentagon.png'} className="h-7" />
+          <img src={styles.pentagonImgSrc} className="h-7" />
         </div>
       </div>
     </div>

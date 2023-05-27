@@ -1,5 +1,6 @@
 import { ChordMode } from '../types/chords'
 import { Chord } from '../utils/get-chord'
+import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 
@@ -14,6 +15,7 @@ const getChordString = (chord: Chord) => {
 
 export const Chords = () => {
   const { romanChords, keySig, setActiveChord, activeChord } = useKeyContext()
+  const { width } = useWindowDimensions()
   return (
     <div className="mt-30 flex flex-wrap justify-center">
       <Fade
@@ -30,7 +32,7 @@ export const Chords = () => {
             : 'border-2 border-stone-800 bg-transition-colors duration-300 text-black font-normal'
           return (
             <div
-              className="flex flex-col justify-center items-center hover:cursor-pointer p-4"
+              className={`flex flex-col justify-center items-center hover:cursor-pointer px-1 py-2 md:py-4 md:px-4 `}
               key={romanChords[idx]}
               onClick={() => setActiveChord(!isActive ? chord : undefined)}
             >
@@ -41,7 +43,7 @@ export const Chords = () => {
               </p>
               <p
                 key={chord.rootNote}
-                className={` font-poppins text-center text-md lg:text-xl select-none w-28 rounded-full py-1 px-4 ${fontWeight} ${buttonStyles}
+                className={` font-poppins text-center text-sm md:text-md lg:text-xl select-none w-20 md:w-28 rounded-full py-1 px-4 ${fontWeight} ${buttonStyles}
                 `}
               >
                 {getChordString(chord)}
