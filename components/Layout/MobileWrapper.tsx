@@ -1,8 +1,10 @@
 import { PropsWithChildren } from 'react'
-import useWindowDimensions from '../../utils/hooks/useWindowDimensions'
+import { useKeyContext } from '../KeyContext'
 
 export const MobileWrapper = ({ children }: PropsWithChildren): JSX.Element => {
-  const { width } = useWindowDimensions()
+  const { width } = useKeyContext()
+  if (!width) return <></>
+
   return width < 475 ? (
     <div
       className={`w-full flex flex-col min-h-screen bg-[url('./images/CAGED-Background.jpeg')] bg-no-repeat bg-center bg-cover pt-32`}

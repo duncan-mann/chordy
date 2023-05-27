@@ -8,7 +8,7 @@ import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 import { getCAGEDPosition } from '../utils/hooks/useCAGEDShapes'
 
 export const GuitarNeck = () => {
-  const { width } = useWindowDimensions()
+  const { width } = useKeyContext()
 
   const fretPositions = [
     0,

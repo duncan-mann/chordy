@@ -4,7 +4,6 @@ import { Fade } from '../animations/Fade'
 import { useFeatureAutomation } from '../../utils/hooks/useFeatureAutomation'
 import { MenuBar } from '../MenuBar'
 import { Note } from '../../types/chords'
-import useWindowDimensions from '../../utils/hooks/useWindowDimensions'
 
 interface WelcomeStep {
   title: string
@@ -122,17 +121,16 @@ const WelcomeContent = ({ step }: PropsWithChildren<{ step: WelcomeStep }>) => {
 
 export const SideBar = () => {
   const whiteNotes: Note[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-  const { setRootNote, setActiveChord } = useKeyContext()
-  const { width } = useWindowDimensions()
+  const { setRootNote, setActiveChord, width } = useKeyContext()
   return (
     <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center pt-10 w-[17%]">
-      {width > 785 && <MenuBar />}
+      {width && width > 785 && <MenuBar />}
       <div className="flex flex-col items-center justify-center h-full ">
         {whiteNotes.map((note) => (
           <div className="flex flex-row items-center mb-10" key={note}>
             <p
               className={
-                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center'
+                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-non'
               }
               onClick={() => {
                 setActiveChord(undefined)
@@ -145,7 +143,7 @@ export const SideBar = () => {
             </p>
             <p
               className={
-                'font-poppins font-bold mx-[1vw] text-4xl hover:cursor-pointer transition ease-in-out hover:scale-110'
+                'font-poppins font-bold mx-[1vw] text-4xl hover:cursor-pointer transition ease-in-out hover:scale-110 select-none'
               }
               onClick={() => {
                 setActiveChord(undefined)
@@ -156,7 +154,7 @@ export const SideBar = () => {
             </p>
             <p
               className={
-                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center'
+                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-non'
               }
               onClick={() => {
                 setActiveChord(undefined)
