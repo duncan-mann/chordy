@@ -123,12 +123,10 @@ const WelcomeContent = ({ step }: PropsWithChildren<{ step: WelcomeStep }>) => {
 export const SideBar = () => {
   const whiteNotes: Note[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
   const { setRootNote, setActiveChord } = useKeyContext()
-  const { width, tailwindSize } = useWindowDimensions()
+  const { width } = useWindowDimensions()
   return (
     <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center pt-10 w-[17%]">
       {width > 785 && <MenuBar />}
-      <p className="text-white">{width}</p>
-      <p className="text-white">{tailwindSize}</p>
       <div className="flex flex-col items-center justify-center h-full ">
         {whiteNotes.map((note) => (
           <div className="flex flex-row items-center mb-10" key={note}>
