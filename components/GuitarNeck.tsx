@@ -4,7 +4,6 @@ import { getCommonNotes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 import { Note } from '../types/chords'
-import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 import { getCAGEDPosition } from '../utils/hooks/useCAGEDShapes'
 
 export const GuitarNeck = () => {

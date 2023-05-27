@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from 'react'
 import { useChordProgression } from '../utils/music-theory'
-import { FocusId } from './animations/FocusWrapper'
 import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 
 type TKeyContext = ReturnType<typeof useChordProgression> &
@@ -42,9 +41,4 @@ const useLayout = () => {
     displayRootNoteOptions,
     setDisplayRootNoteOptions,
   }
-}
-
-const useFocusedComponenet = () => {
-  const [focusedIds, setFocusedId] = useState<FocusId[]>()
-  return { focusedIds, setFocusedId }
 }
