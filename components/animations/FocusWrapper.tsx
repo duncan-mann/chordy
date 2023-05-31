@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from 'react'
-import { useKeyContext } from '../KeyContext'
 
 export type FocusId =
   | 'root-note-selector'
@@ -15,11 +14,11 @@ interface IFocusWrapper {
 export const FocusWrapper = ({
   children,
   className,
-  id,
-}: PropsWithChildren<IFocusWrapper>) => {
-  const { focusedIds } = useKeyContext()
-  const isFocused = id && focusedIds?.includes(id)
-  if (!isFocused || !id) return <>{children}</>
+}: // id,
+PropsWithChildren<IFocusWrapper>) => {
+  // const { focusedIds } = useKeyContext()
+  // const isFocused = id && focusedIds?.includes(id)
+  // if (!isFocused || !id) return <>{children}</>
 
   return (
     <div className={`${className} z-20`}>
