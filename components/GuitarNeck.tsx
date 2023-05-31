@@ -115,9 +115,6 @@ const NoteDot = ({
   const isInActiveChord = Boolean(
     activeChord && isActiveNote(activeChord.notes)
   )
-  const logNoteData = () => {
-    console.log('KeySig', keySig)
-  }
 
   if (scaleType === 'pentatonic' && !isActiveNote(keySig.pentatonicScale))
     return null
@@ -137,7 +134,6 @@ const NoteDot = ({
       className={'z-10'}
     >
       <div
-        onClick={() => logNoteData()}
         className={`rounded-full w-5 h-5 translate-y-3 relative flex items-center justify-center overflow-hidden`}
       >
         <div

@@ -316,10 +316,6 @@ export const useChordProgression = () => {
   }
   const keySig = new KeySignature(rootNote, mode)
 
-  useEffect(() => {
-    console.log(keySig.notes)
-  }, [rootNote, mode])
-
   return {
     keySig,
     romanChords,
