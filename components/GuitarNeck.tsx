@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { getCommonNotes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 import { Note } from '../types/chords'
 import { getCAGEDColors, getCAGEDPosition } from '../utils/hooks/useCAGEDShapes'
-import { ChordType, Note as TonalNote, Scale, Key } from 'tonal'
 
 export const GuitarNeck = () => {
   const { width } = useKeyContext()
