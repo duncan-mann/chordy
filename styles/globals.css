@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 * {
   -ms-overflow-style: none;
@@ -51,4 +52,34 @@
   100% {
     opacity: 0;
   }
+}
+
+.focused {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  box-shadow: 0 0 10px 5px rgb(148 163 184); /* Example: glowy box-shadow */
+  z-index: 999; /* Ensure the wrapper is on top of other elements */
+  border-radius: 18px;
+}
+
+.focused * {
+  pointer-events: none; /* Disable pointer events on child elements when focused */
+}
+
+.sidebar {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  top: 0px;
+  left: 0px;
+  /* --mask: radial-gradient(
+        111.8px at calc(100% - 150px) 50%,
+        #000 99%,
+        #0000 101%
+      )
+      0 calc(50% - 100px) / 100% 200px,
+    radial-gradient(111.8px at calc(100% + 100px) 50%, #0000 99%, #000 101%)
+      calc(100% - 50px) 50%/100% 200px repeat-y;
+  -webkit-mask: var(--mask);
+  mask: var(--mask); */
+  /* border-top-right-radius: 1%; */
 }

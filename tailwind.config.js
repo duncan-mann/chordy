@@ -5,9 +5,19 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    fontFamily: {
-      'inter': ['inter', 'serif']
-    }
+    extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'serif'],
+        inter: ['inter', 'serif'],
+      },
+      colors: {
+        cagedc: '#2176ff',
+        cageda: '#db162f',
+        cagedg: '#f79824',
+        cagede: '#fdca40',
+        cagedd: '#109047',
+      },
+    },
   },
   plugins: [],
 }

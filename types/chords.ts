@@ -1,6 +1,5 @@
-import { chordsByKey, notes } from '../utils/music-theory'
-
 export type Note =
+  | 'Cb'
   | 'C'
   | 'C#'
   | 'Db'
@@ -8,6 +7,8 @@ export type Note =
   | 'D#'
   | 'Eb'
   | 'E'
+  | 'E#'
+  | 'Fb'
   | 'F'
   | 'F#'
   | 'Gb'
@@ -18,50 +19,14 @@ export type Note =
   | 'A#'
   | 'Bb'
   | 'B'
-
-export type NoteChord =
-  | Note
-  | 'Cm'
-  | 'C#m'
-  | 'Dbm'
-  | 'Dm'
-  | 'D#m'
-  | 'Ebm'
-  | 'Em'
-  | 'Fm'
-  | 'F#m'
-  | 'Gbm'
-  | 'Gm'
-  | 'G#m'
-  | 'Abm'
-  | 'Am'
-  | 'A#m'
-  | 'Bbm'
-  | 'Bm'
-  | 'Co'
-  | 'C#o'
-  | 'Dbo'
-  | 'Do'
-  | 'D#o'
-  | 'Ebo'
-  | 'Eo'
-  | 'Fo'
-  | 'F#o'
-  | 'Gbo'
-  | 'Go'
-  | 'G#o'
-  | 'Abo'
-  | 'Ao'
-  | 'A#o'
-  | 'Bbo'
-  | 'Bo'
+  | 'B#'
 
 //The uppercase Roman numerals represent major chords, the lowercase Roman numerals represent minor chords,
 //and the "m" suffix indicates a minor chord.
 //The "7" suffix indicates a dominant 7th chord, the "6" suffix indicates an inverted major chord,
 //and the "64" suffix indicates an inverted dominant chord.
 
-export type KeyMode = 'maj' | 'min' 
+export type KeyMode = 'maj' | 'min'
 export type ChordMode = KeyMode | 'dim'
 
 export type MajorRomanChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'VII°'
@@ -71,78 +36,3 @@ export type MinorRomanChord = 'i' | 'II°' | 'III' | 'iv' | 'v' | 'VI' | 'VII'
 export type RomanChord = MajorRomanChord | MinorRomanChord
 
 export type ScaleType = 'base' | 'pentatonic'
-
-export const romanChords: Record<'maj', MajorRomanChord[]> &
-  Record<'min', MinorRomanChord[]> = {
-  maj: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'VII°'],
-  min: ['i', 'II°', 'III', 'iv', 'v', 'VI', 'VII'],
-}
-
-export const getRandomValueFromArray = <T>(arr: T[]): T => {
-  const randomIndex = Math.floor(Math.random() * arr.length)
-  return arr[randomIndex]
-}
-
-/**
- *
- * @param param0 -
- * @returns - 0-indexed chord progression. Ex. [0,3,2,1] is a 1, 4, 3, 2 progression
- */
-export const getRandomProgression = ({
-  chordAmount,
-}: {
-  chordAmount: number
-}): number[] => {
-  const progression: number[] = []
-
-  while (progression.length < chordAmount) {
-    const randomNumber = Math.floor(Math.random() * 7)
-    if (!progression.includes(randomNumber)) {
-      progression.push(randomNumber)
-    }
-  }
-
-  return progression
-}
-
-export const getRandomRootNote = (currentRootNote: Note) => {
-  let newRootNote = currentRootNote
-  while (currentRootNote === newRootNote) {
-    newRootNote = notes[Math.floor(Math.random() * notes.length)]
-  }
-  return newRootNote
-}
-
-export const getProgressionForKey = (
-  progression: number[],
-  rootNote: string,
-  mode: KeyMode
-) => {
-  const chords = chordsByKey[rootNote][mode]
-  return progression.map((chordNumber) => chords[chordNumber])
-}
-
-export type Progression = {
-  roman: Array<RomanChord>
-  numbers: Array<string>
-}
-
-export const commonProgressions: Array<Array<RomanChord>> = [
-  ['I', 'IV', 'V'],
-  ['I', 'vi', 'IV', 'V'],
-  ['I', 'IV', 'v'],
-  ['I', 'V', 'vi', 'IV'],
-  ['I', 'vi', 'iii', 'IV'],
-  ['ii', 'V', 'I'],
-  ['I', 'IV', 'ii', 'V'],
-  ['I', 'IV', 'vi', 'V'],
-  ['I', 'V', 'vi', 'iii', 'IV'],
-  ['IV', 'I', 'V'],
-  ['I', 'IV', 'vi', 'iii'],
-  ['I', 'vi', 'IV', 'iii'],
-  ['I', 'V', 'vi', 'IV'],
-  ['I', 'IV', 'iv', 'IV'],
-  ['I', 'V', 'IV', 'V'],
-  ['I', 'IV', 'I', 'V'],
-  ['I', 'IV', 'iv', 'IV', 'V'],
-]

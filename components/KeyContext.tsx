@@ -1,7 +1,10 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { useChordProgression } from '../utils/music-theory'
+import useWindowDimensions from '../utils/hooks/useWindowDimensions'
 
-type TKeyContext = ReturnType<typeof useChordProgression>
+type TKeyContext = ReturnType<typeof useChordProgression> &
+  ReturnType<typeof useLayout> &
+  ReturnType<typeof useWindowDimensions>
 
 export const KeyContext = createContext<TKeyContext | undefined>(undefined)
 
@@ -12,8 +15,10 @@ export interface Props {
 
 export const KeyContextProvider = (props: Props) => {
   const chordProgressionState = useChordProgression()
+  const layoutState = useLayout()
+  const windowSizeState = useWindowDimensions()
 
-  const value = { ...chordProgressionState }
+  const value = { ...chordProgressionState, ...layoutState, ...windowSizeState }
 
   return <KeyContext.Provider value={value} {...props} />
 }
@@ -24,4 +29,16 @@ export const useKeyContext = () => {
     throw new Error(`useKeyContext must be used within a KeyContextProvider.`)
   }
   return context
+}
+
+const useLayout = () => {
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
+  const [displayRootNoteOptions, setDisplayRootNoteOptions] = useState(false)
+
+  return {
+    sidebarIsOpen,
+    setSidebarIsOpen,
+    displayRootNoteOptions,
+    setDisplayRootNoteOptions,
+  }
 }

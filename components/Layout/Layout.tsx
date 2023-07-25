@@ -5,11 +5,11 @@ export function Layout({ children }: PropsWithChildren) {
   return (
     <>
       <Head>
-        <title>Fretboard.fyi</title>
+        <title>Fretboard</title>
       </Head>
-      <div className="flex flex-col min-h-screen bg-slate-900">
-        <header className="p-4 flex justify-between" />
-        <main className="flex-1 p-4">{children}</main>
+      <div className="flex flex-col min-h-screen bg-zinc-100">
+        <header className="flex justify-between" />
+        <main className="flex-1">{children}</main>
         <footer className="bg-transparent" />
       </div>
     </>

@@ -6,8 +6,8 @@
 import { useEffect, useState } from 'react'
 
 type WindowDimentions = {
-  width: number
-  height: number
+  width?: number
+  height?: number
   tailwindSize?: TailWindSize
 }
 type TailWindSize = '' | 'xsm' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'

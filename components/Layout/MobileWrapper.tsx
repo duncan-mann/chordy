@@ -1,13 +1,21 @@
 import { PropsWithChildren } from 'react'
-import useWindowDimensions from '../../utils/hooks/useWindowDimensions'
+import { useKeyContext } from '../KeyContext'
 
 export const MobileWrapper = ({ children }: PropsWithChildren): JSX.Element => {
-  const { tailwindSize } = useWindowDimensions()
-  return tailwindSize === 'xsm' ? (
-    <div className="w-full flex justify-center items-center bg-red-500 min-h-screen">
-      <h1 className="text-white font-inter font-thin text-sm">
-        Fretboard.fyi is currently optimized for desktop
-      </h1>
+  const { width } = useKeyContext()
+  if (!width) return <></>
+
+  return width < 475 ? (
+    <div
+      className={`w-full flex flex-col min-h-screen bg-no-repeat bg-center bg-cover pt-32`}
+    >
+      <h1 className="text-center text-6xl mb-4">{'🎸'}</h1>
+      <h2 className="text-white font-bold font-poppins text-2xl text-center px-4 mb-7 ">
+        {'Mobile is currently in development!'}
+      </h2>
+      <p className="text-white font-bold font-poppins text-sm text-center">
+        {'Come check us out on desktop'}
+      </p>
     </div>
   ) : (
     <>{children}</>

@@ -1,68 +1,69 @@
-import { useState } from 'react'
-import { SelectorTooltip } from './SelectorTooltip'
-import { notes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
 
-export const MenuBar = () => {
-  const [displayRootNoteOptions, setDisplayRootNoteOptions] = useState(false)
+interface IMenuBar {
+  theme?: 'light' | 'dark'
+}
+
+export const MenuBar = ({ theme = 'light' }: IMenuBar) => {
   const {
-    setRootNote,
     rootNote,
     mode,
     setMode,
-    setActiveChord,
-    setScaleType,
     scaleType,
+    setScaleType,
+    setDisplayRootNoteOptions,
   } = useKeyContext()
-
-  const filteredNotes = notes.filter((note) => note !== rootNote)
+  const themeStyles = {
+    light: {
+      textColor: 'white',
+      pentagonImgSrc: './pentagon.png',
+    },
+    dark: {
+      textColor: 'cageda',
+      pentagonImgSrc: './pentagon-black.png',
+    },
+  }
+  const styles = themeStyles[theme]
 
   const togglePentatonic = () => {
+    setDisplayRootNoteOptions(false)
     if (scaleType === 'base') return setScaleType('pentatonic')
     return setScaleType('base')
   }
 
-  const rootNoteOptions = filteredNotes.map((note) => ({
-    text: note,
-    onClick: () => {
-      setRootNote(note)
-      setActiveChord(undefined)
-      setDisplayRootNoteOptions(false)
-    },
-  }))
-
-  const toggleMode = () => setMode((mode) => (mode == 'maj' ? 'min' : 'maj'))
+  const toggleMode = () => {
+    setDisplayRootNoteOptions(false)
+    setMode((mode) => (mode == 'maj' ? 'min' : 'maj'))
+  }
   const toggleRootNoteDisplay = () =>
     setDisplayRootNoteOptions((state) => !state)
 
   return (
-    <div className="flex flex-col">
-      <div className="h-15 mt-3 mb-28 ml-10 flex flex-row items-center">
-        <h3
-          className="font-inter font-thin text-4xl text-white mr-3 cursor-pointer"
-          onClick={toggleRootNoteDisplay}
-        >
-          {rootNote}
-        </h3>
-        <h3
-          className="font-inter font-thin text-2xl text-white cursor-pointer mr-5"
-          onClick={toggleMode}
-        >
-          {mode}
-        </h3>
+    <div className="flex flex-col items-center">
+      <div className="mt-3 flex flex-row items-center justify-center">
+        <div className={'flex flex-row items-center p-1'}>
+          <h3
+            className={`font-poppins font-bold text-4xl text-${styles.textColor} mr-3 cursor-pointer`}
+            onClick={toggleRootNoteDisplay}
+          >
+            {rootNote}
+          </h3>
+          <h3
+            className={`font-poppins font-bold text-2xl text-${styles.textColor} cursor-pointer`}
+            onClick={toggleMode}
+          >
+            {mode}
+          </h3>
+        </div>
         <div
-          className={`${
+          className={`flex justify-normal place-items-center ${
             scaleType !== 'pentatonic' && 'opacity-30'
-          } cursor-pointer`}
+          } cursor-pointer p-2 rounded-full h-12 w-12`}
           onClick={togglePentatonic}
         >
-          <img src={'./pentagon.png'} className="h-7" />
+          <img src={styles.pentagonImgSrc} className="h-7" />
         </div>
       </div>
-      <SelectorTooltip
-        options={rootNoteOptions}
-        isDisplayed={displayRootNoteOptions}
-      />
     </div>
   )
 }
