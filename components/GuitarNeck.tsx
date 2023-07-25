@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { getCommonNotes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 import { Note } from '../types/chords'
-import { getCAGEDPosition } from '../utils/hooks/useCAGEDShapes'
+import { getCAGEDColors, getCAGEDPosition } from '../utils/hooks/useCAGEDShapes'
+import { ChordType, Note as TonalNote, Scale, Key } from 'tonal'
 
 export const GuitarNeck = () => {
   const { width } = useKeyContext()
 
   const fretPositions = [
-    0,
     1,
     2,
     3,
@@ -22,7 +22,7 @@ export const GuitarNeck = () => {
     9,
     10,
     11,
-    ...(width && width > 850 ? [12, 13, 14, 15, 16, 17, 18, 19] : []),
+    ...(width && width > 850 ? [12, 13, 14, 15, 16, 17, 18, 19, 20] : []),
   ]
 
   return (
@@ -35,18 +35,20 @@ export const GuitarNeck = () => {
 }
 
 const Fret = ({ fretPosition }: { fretPosition: number }) => {
-  const singleDotFrets = [2, 4, 6, 8, 14, 16, 18]
-  const leftFretThickness = fretPosition === 0 ? 'border-l-8' : ''
+  const singleDotFrets = [3, 5, 7, 9, 15, 17, 19, 21]
+  const leftFretThickness = fretPosition === 1 ? 'border-l-8' : ''
 
   return (
-    <div className={`border-slate-800 w-[60px] inline-block`}>
+    <div
+      className={`border-slate-800  inline-block ${getFretWidth(fretPosition)}`}
+    >
       <div
         className={`relative border-slate-800 border-b-2 border-b-slate-600 w-full h-3 flex flex-row justify-center items-end`}
       >
         <NoteDot stringIdx={5} {...{ fretPosition }} />
       </div>
       <div
-        className={`relative border-slate-800 border-r border-b-2  border-b-slate-600  border-t-slate-600 w-full h-6 flex justify-center items-center ${leftFretThickness}`}
+        className={`relative border-slate-800 border-r border-b-2  border-b-slate-600  border-t-slate-600 w-full h-7 flex justify-center items-center ${leftFretThickness}`}
       >
         <NoteDot stringIdx={4} {...{ fretPosition }} />
       </div>
@@ -54,7 +56,7 @@ const Fret = ({ fretPosition }: { fretPosition: number }) => {
         className={`relative border-slate-800 border-r border-b-2 border-b-slate-600  border-t-slate-600 w-full h-7 flex justify-center items-center ${leftFretThickness}`}
       >
         <NoteDot stringIdx={3} {...{ fretPosition }} />
-        {fretPosition === 11 && <FretDot />}
+        {fretPosition === 12 && <FretDot />}
       </div>
       <div
         className={`relative border-slate-800 border-r border-b-2 border-t-slate-600 w-full h-7 flex justify-center items-center ${leftFretThickness}`}
@@ -66,7 +68,7 @@ const Fret = ({ fretPosition }: { fretPosition: number }) => {
         className={`relative border-slate-800 border-r border-b-2 w-full h-7 flex justify-center items-center ${leftFretThickness}`}
       >
         <NoteDot stringIdx={1} {...{ fretPosition }} />
-        {fretPosition === 11 && <FretDot />}
+        {fretPosition === 12 && <FretDot />}
       </div>
       <div
         className={`relative border-slate-800 border-r border-b-2  w-full h-7 flex justify-center items-center ${leftFretThickness}`}
@@ -122,11 +124,13 @@ const NoteDot = ({
   else if (!activeChord && !isActiveNote(keySig.notes)) return null
 
   const result = getCAGEDPosition(stringIdx, notePosition)
-  const getCAGEDColors = () => {
-    if (!result) return ['bg-black', 'bg-black']
-    return result.map((position) => `bg-caged${position.toLowerCase()}`)
-  }
-  const cagedColors = getCAGEDColors()
+
+  //TO BE SET IN PREMIUM MODE
+  const CAGED_FEATURE_ON = false
+
+  const bgColors = CAGED_FEATURE_ON
+    ? getCAGEDColors(result)
+    : getStandardColors(notePosition || 2)
 
   return (
     <Fade
@@ -136,12 +140,10 @@ const NoteDot = ({
       <div
         className={`rounded-full w-5 h-5 translate-y-3 relative flex items-center justify-center overflow-hidden`}
       >
-        <div
-          className={`absolute w-full h-full rounded-full ${cagedColors[0]}`}
-        />
+        <div className={`absolute w-full h-full rounded-full ${bgColors[0]}`} />
         <div
           className={`absolute w-1/2 h-full transform translate-x-2/4 ${
-            cagedColors[1] || cagedColors[0]
+            bgColors[1] || bgColors[0]
           }`}
         />
         <p className="font-poppins font-bold absolute text-white text-xs text-center cursor-default">
@@ -151,3 +153,14 @@ const NoteDot = ({
     </Fade>
   )
 }
+
+const getFretWidth = (position: number): string | undefined => {
+  if (position <= 4) return 'w-[87px]'
+  if (position <= 8) return 'w-[80px]'
+  if (position <= 12) return 'w-[67px]'
+  if (position <= 16) return 'w-[57px]'
+  if (position <= 20) return 'w-[50px]'
+}
+
+const getStandardColors = (notePosition: number) =>
+  notePosition === 1 ? ['bg-sky-500'] : ['bg-slate-900']

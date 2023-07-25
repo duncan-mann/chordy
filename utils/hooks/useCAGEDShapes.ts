@@ -3,7 +3,7 @@
 //The note position of F is 4, B is 7
 type StringIndex = number
 type ChordTone = number
-type CagedShape = 'C' | 'A' | 'G' | 'E' | 'D'
+export type CagedShape = 'C' | 'A' | 'G' | 'E' | 'D'
 
 export const getCAGEDPosition = (
   stringIdx: number,
@@ -43,4 +43,9 @@ export const getCAGEDPosition = (
   }
 
   return positions[stringIdx]?.[notePosition] || null
+}
+
+export const getCAGEDColors = (result: CagedShape[] | null) => {
+  if (!result) return ['bg-slate-900', 'bg-slate-900']
+  return result.map((position) => `bg-caged${position.toLowerCase()}`)
 }

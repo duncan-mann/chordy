@@ -123,7 +123,7 @@ export const SideBar = () => {
   const whiteNotes: Note[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
   const { setRootNote, setActiveChord, width } = useKeyContext()
   return (
-    <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center pt-10 w-[17%]">
+    <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center bg-slate-900 mx-auto">
       {width && width > 785 && <MenuBar />}
       <div className="flex flex-col items-center justify-center h-full ">
         {whiteNotes.map((note) => (

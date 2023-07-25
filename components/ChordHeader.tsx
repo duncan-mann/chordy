@@ -26,8 +26,9 @@ export const Chords = () => {
             chord.mode === activeChord.mode
           const fontWeight = !isActive ? 'font-normal' : 'font-bold'
           const buttonStyles = isActive
-            ? 'bg-cageda border-2 border-cageda  bg-transition-colors duration-300 text-white font-bold'
+            ? 'bg-slate-900 border-2 border-slate-900  bg-transition-colors duration-300 text-white font-bold'
             : 'border-2 border-stone-800 bg-transition-colors duration-300 text-black font-normal'
+
           return (
             <div
               className={`flex flex-col justify-center items-center hover:cursor-pointer px-1 py-2 md:py-4 md:px-4 `}
@@ -41,7 +42,7 @@ export const Chords = () => {
               </p>
               <p
                 key={chord.rootNote}
-                className={` font-poppins text-center text-sm md:text-md lg:text-xl select-none w-20 md:w-28 rounded-full py-1 px-4 hover:scale-105 transition ease-in-out duration-150 ${fontWeight} ${buttonStyles}
+                className={`font-poppins text-center text-sm md:text-md lg:text-xl select-none w-20 md:w-28 rounded-full py-1 px-4 hover:scale-105 transition ease-in-out duration-150 ${fontWeight} ${buttonStyles}
                 `}
               >
                 {getChordString(chord)}

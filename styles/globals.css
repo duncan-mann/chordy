@@ -66,11 +66,20 @@
 }
 
 .sidebar {
-  background-image: url('./images/CAGED-Background.jpeg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   top: 0px;
   left: 0px;
+  /* --mask: radial-gradient(
+        111.8px at calc(100% - 150px) 50%,
+        #000 99%,
+        #0000 101%
+      )
+      0 calc(50% - 100px) / 100% 200px,
+    radial-gradient(111.8px at calc(100% + 100px) 50%, #0000 99%, #000 101%)
+      calc(100% - 50px) 50%/100% 200px repeat-y;
+  -webkit-mask: var(--mask);
+  mask: var(--mask); */
   /* border-top-right-radius: 1%; */
 }

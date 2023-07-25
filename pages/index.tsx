@@ -9,13 +9,15 @@ export default function Home() {
   useKeyPress()
   const { width } = useKeyContext()
   return (
-    <div className={'flex flex-row min-h-screen'}>
+    <div className={' bg-slate-900 p-5 flex flex-row justify-between'}>
       <SideBar />
-      <div className="w-[80vw] my-auto mx-auto">
-        {width && width < MENU_BAR_SCREEN_SIZE && <MenuBar theme="dark" />}
-        <Chords />
-        <div className="flex justify-center rounded-lg bg-white shadow-md p-5 mt-5 ">
-          <GuitarNeck />
+      <div className={'flex flex-row h-[95vh] bg-zinc-100 rounded-xl'}>
+        <div className="w-[83vw] my-auto mx-auto p-8">
+          {width && width < MENU_BAR_SCREEN_SIZE && <MenuBar theme="dark" />}
+          <Chords />
+          <div className="flex justify-center rounded-lg bg-white shadow-md p-5 mt-5 ">
+            <GuitarNeck />
+          </div>
         </div>
       </div>
     </div>

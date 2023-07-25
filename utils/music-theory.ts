@@ -30,6 +30,7 @@ export const notes: Note[] = [
 ]
 
 export const FLAT_FRET_NOTES: Note[][] = [
+  ['E', 'A', 'D', 'G', 'B', 'E'],
   ['F', 'Bb', 'Eb', 'Ab', 'C', 'F'],
   ['Gb', 'B', 'E', 'A', 'Db', 'Gb'],
   ['G', 'C', 'F', 'Bb', 'D', 'G'],
@@ -53,6 +54,7 @@ export const FLAT_FRET_NOTES: Note[][] = [
 ]
 
 export const SHARP_FRET_NOTES: Note[][] = [
+  ['E', 'A', 'D', 'G', 'B', 'E'],
   ['F', 'A#', 'D#', 'G#', 'C', 'F'],
   ['F#', 'B', 'E', 'A', 'C#', 'F#'],
   ['G', 'C', 'F', 'A#', 'D', 'G'],
@@ -68,7 +70,7 @@ export const SHARP_FRET_NOTES: Note[][] = [
   ['F', 'A#', 'D#', 'G#', 'C', 'F'],
   ['F#', 'B', 'E', 'A', 'C#', 'F#'],
   ['G', 'C', 'F', 'A#', 'D', 'G'],
-  ['G#', 'Db', 'F#', 'B', 'D#', 'G#'],
+  ['G#', 'C#', 'F#', 'B', 'D#', 'G#'],
   ['A', 'D', 'G', 'C', 'E', 'A'],
   ['A#', 'D#', 'G#', 'C#', 'F', 'A#'],
   ['B', 'E', 'A', 'D', 'F#', 'B'],

@@ -1,5 +1,6 @@
 import { ChordMode, KeyMode, Note } from '../types/chords'
-import { getGuitarFretNotes, scalesByKey } from './music-theory'
+import { getCommonNotes, getGuitarFretNotes, scalesByKey } from './music-theory'
+import { Note as TonalNote } from 'tonal'
 
 const getFlatOrSharpNotes = (rootNote: Note): Note[] =>
   rootNote.includes('b')
@@ -88,7 +89,11 @@ export class Chord {
   }
 
   public getNotePosition(note: Note) {
-    const position = this.notes.indexOf(note)
+    const tnote = TonalNote.enharmonic(note) as Note
+    let position =
+      this.notes.indexOf(note) > -1
+        ? this.notes.indexOf(note)
+        : this.notes.indexOf(tnote)
     if (position === -1) return null
     switch (position) {
       case 0:
@@ -122,7 +127,8 @@ export class KeySignature {
   }
 
   public getNotePosition(note: Note) {
-    const position = this.notes.indexOf(note)
+    const tnote = TonalNote.enharmonic(note) as Note
+    let position = this.notes.indexOf(note) || this.notes.indexOf(tnote)
     if (position === -1) return null
     return position + 1
   }
