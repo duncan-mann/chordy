@@ -137,7 +137,7 @@ export const SideBar = () => {
     return setScaleType('base')
   }
   return (
-    <div className="text-slate-500 top-0 left-0 h-screen sidebar flex flex-col items-center mx-auto font-poppins">
+    <div className="text-slate-500 top-0 left-0 h-screen sidebar flex flex-col items-center font-poppins mr-5">
       <div className="flex flex-col my-10">
         <div
           className={`${
@@ -145,7 +145,7 @@ export const SideBar = () => {
           } text-left cursor-pointer select-none mb-2`}
           onClick={() => setMode('maj')}
         >
-          <p>major</p>
+          <p className={'text-xs md:text-base'}>major</p>
         </div>
         <div
           className={`${
@@ -153,7 +153,7 @@ export const SideBar = () => {
           } text-left  cursor-pointer select-none mb-2`}
           onClick={() => setMode('min')}
         >
-          <p>minor</p>
+          <p className={'text-xs md:text-base'}>minor</p>
         </div>
         <div
           className={`${
@@ -161,7 +161,7 @@ export const SideBar = () => {
           } text-left cursor-pointer select-none`}
           onClick={togglePentatonic}
         >
-          <p>pentatonic</p>
+          <p className={'text-xs md:text-base'}>pentatonic</p>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center ">
@@ -172,7 +172,7 @@ export const SideBar = () => {
           return (
             <div className="flex flex-row items-center mb-8" key={note}>
               <p
-                className={`text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none
+                className={`text-lg md:text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none
                   ${isSelectedFlat && 'text-white'}
                   `}
                 onClick={() => {
@@ -185,7 +185,7 @@ export const SideBar = () => {
                 ♭
               </p>
               <p
-                className={`font-poppins font-bold mx-[1vw] text-3xl hover:cursor-pointer transition ease-in-out hover:scale-110 select-none
+                className={`text-2xl md:text-3xl font-poppins font-bold mx-[1vw] hover:cursor-pointer transition ease-in-out hover:scale-110 select-none
                   ${isSelectedRootNote && 'text-white'}
                   `}
                 onClick={() => {
@@ -196,7 +196,7 @@ export const SideBar = () => {
                 {note}
               </p>
               <p
-                className={`text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none
+                className={`text-lg md:text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none
                   ${isSelectedSharp && 'text-white'}
                   `}
                 onClick={() => {

@@ -1,10 +1,11 @@
 import { useKeyContext } from './KeyContext'
+import { Fade } from './animations/Fade'
 
-interface IMenuBar {
+interface IKeyDisplay {
   theme?: 'light' | 'dark'
 }
 
-export const MenuBar = ({ theme = 'light' }: IMenuBar) => {
+export const KeyDisplay = ({ theme = 'light' }: IKeyDisplay) => {
   const {
     rootNote,
     mode,
@@ -66,6 +67,50 @@ export const MenuBar = ({ theme = 'light' }: IMenuBar) => {
               <img src={styles.pentagonImgSrc} className="h-7" />
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const ChordDisplay = () => {
+  const { activeChord } = useKeyContext()
+  if (!activeChord) return null
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="mt-3 flex flex-row items-center justify-center">
+        <div className={`flex flex-col`}>
+          <p
+            className={`font-poppins font-bold text-large text-gray-400 mr-3 cursor-default select-none self-end`}
+          >
+            {'chord'}
+          </p>
+          <Fade key={`${activeChord.rootNote}-${activeChord.mode}`}>
+            <div className={'flex flex-row items-center pt-1'}>
+              <h3
+                className={`font-poppins font-bold text-5xl text-slate-900 mr-3 select-none`}
+              >
+                {activeChord.rootNote}
+              </h3>
+              <h3
+                className={`font-poppins font-bold text-2xl text-slate-900 cursor-pointer select-none mr-2`}
+              >
+                {activeChord.mode}
+              </h3>
+              <div className="flex flex-row">
+                {activeChord.notes.map((note) => (
+                  <div
+                    className={`rounded-full w-7 h-7 flex items-center justify-center bg-slate-900 mr-1`}
+                  >
+                    <p className="font-poppins font-bold absolute text-white text-xs text-center cursor-default">
+                      {note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Fade>
         </div>
       </div>
     </div>
