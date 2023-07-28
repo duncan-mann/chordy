@@ -128,7 +128,10 @@ export class KeySignature {
 
   public getNotePosition(note: Note) {
     const tnote = TonalNote.enharmonic(note) as Note
-    let position = this.notes.indexOf(note) || this.notes.indexOf(tnote)
+    let position =
+      this.notes.indexOf(note) > -1
+        ? this.notes.indexOf(note)
+        : this.notes.indexOf(tnote)
     if (position === -1) return null
     return position + 1
   }
