@@ -121,52 +121,97 @@ const WelcomeContent = ({ step }: PropsWithChildren<{ step: WelcomeStep }>) => {
 
 export const SideBar = () => {
   const whiteNotes: Note[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-  const { setRootNote, setActiveChord, width } = useKeyContext()
+  const {
+    setRootNote,
+    setActiveChord,
+    rootNote,
+    mode,
+    setMode,
+    setScaleType,
+    scaleType,
+  } = useKeyContext()
+  const isSelected = (type: 'maj' | 'min') => type === mode
+  const selectedStyles = 'text-white '
+  const isPentatonic = scaleType === 'pentatonic'
+  const togglePentatonic = () => {
+    if (scaleType === 'base') return setScaleType('pentatonic')
+    return setScaleType('base')
+  }
   return (
-    <div className="text-white top-0 left-0 h-screen sidebar flex flex-col items-center bg-slate-900 mx-auto">
-      {width && width > 785 && <MenuBar />}
-      <div className="flex flex-col items-center justify-center h-full ">
-        {whiteNotes.map((note) => (
-          <div className="flex flex-row items-center mb-10" key={note}>
-            <p
-              className={
-                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none'
-              }
-              onClick={() => {
-                setActiveChord(undefined)
-                if (note === 'F') return setRootNote('E')
-                if (note === 'C') return setRootNote('B')
-                setRootNote(`${note}b` as Note)
-              }}
-            >
-              ♭
-            </p>
-            <p
-              className={
-                'font-poppins font-bold mx-[1vw] text-4xl hover:cursor-pointer transition ease-in-out hover:scale-110 select-none'
-              }
-              onClick={() => {
-                setActiveChord(undefined)
-                setRootNote(note)
-              }}
-            >
-              {note}
-            </p>
-            <p
-              className={
-                'text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none'
-              }
-              onClick={() => {
-                setActiveChord(undefined)
-                if (note === 'B') return setRootNote('C')
-                if (note === 'E') return setRootNote('F')
-                setRootNote(`${note}#` as Note)
-              }}
-            >
-              ♯
-            </p>
-          </div>
-        ))}
+    <div className="text-slate-500 top-0 left-0 h-screen sidebar flex flex-col items-center mx-auto font-poppins">
+      <div className="flex flex-col my-10">
+        <div
+          className={`${
+            isSelected('maj') && selectedStyles
+          } text-left cursor-pointer select-none mb-2`}
+          onClick={() => setMode('maj')}
+        >
+          <p>major</p>
+        </div>
+        <div
+          className={`${
+            isSelected('min') && selectedStyles
+          } text-left  cursor-pointer select-none mb-2`}
+          onClick={() => setMode('min')}
+        >
+          <p>minor</p>
+        </div>
+        <div
+          className={`${
+            isPentatonic && selectedStyles
+          } text-left cursor-pointer select-none`}
+          onClick={togglePentatonic}
+        >
+          <p>pentatonic</p>
+        </div>
+      </div>
+      <div className="flex flex-col items-center justify-center ">
+        {whiteNotes.map((note) => {
+          const isSelectedRootNote = rootNote.includes(note)
+          const isSelectedFlat = isSelectedRootNote && rootNote.includes('b')
+          const isSelectedSharp = isSelectedRootNote && rootNote.includes('#')
+          return (
+            <div className="flex flex-row items-center mb-8" key={note}>
+              <p
+                className={`text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none
+                  ${isSelectedFlat && 'text-white'}
+                  `}
+                onClick={() => {
+                  setActiveChord(undefined)
+                  if (note === 'F') return setRootNote('E')
+                  if (note === 'C') return setRootNote('B')
+                  setRootNote(`${note}b` as Note)
+                }}
+              >
+                ♭
+              </p>
+              <p
+                className={`font-poppins font-bold mx-[1vw] text-3xl hover:cursor-pointer transition ease-in-out hover:scale-110 select-none
+                  ${isSelectedRootNote && 'text-white'}
+                  `}
+                onClick={() => {
+                  setActiveChord(undefined)
+                  setRootNote(note)
+                }}
+              >
+                {note}
+              </p>
+              <p
+                className={`text-xl hover:cursor-pointer hover:text-2xl transition ease-in-out hover:scale-110 w-5 text-center select-none
+                  ${isSelectedSharp && 'text-white'}
+                  `}
+                onClick={() => {
+                  setActiveChord(undefined)
+                  if (note === 'B') return setRootNote('C')
+                  if (note === 'E') return setRootNote('F')
+                  setRootNote(`${note}#` as Note)
+                }}
+              >
+                ♯
+              </p>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
