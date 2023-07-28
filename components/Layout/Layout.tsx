@@ -5,7 +5,7 @@ export function Layout({ children }: PropsWithChildren) {
   return (
     <>
       <Head>
-        <title>Fretboard</title>
+        <title>fretboard.fyi</title>
       </Head>
       <div className="flex flex-col min-h-screen bg-zinc-100">
         <header className="flex justify-between" />
