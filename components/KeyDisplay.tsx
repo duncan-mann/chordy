@@ -102,6 +102,7 @@ export const ChordDisplay = () => {
                 {activeChord.notes.map((note) => (
                   <div
                     className={`rounded-full w-7 h-7 flex items-center justify-center bg-slate-900 mr-1`}
+                    key={note}
                   >
                     <p className="font-poppins font-bold absolute text-white text-xs text-center cursor-default">
                       {note}
