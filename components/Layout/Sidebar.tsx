@@ -2,7 +2,6 @@ import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { useKeyContext } from '../KeyContext'
 import { Fade } from '../animations/Fade'
 import { useFeatureAutomation } from '../../utils/hooks/useFeatureAutomation'
-import { MenuBar } from '../MenuBar'
 import { Note } from '../../types/chords'
 
 interface WelcomeStep {
