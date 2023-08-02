@@ -26,6 +26,7 @@ export const GuitarNeck = () => {
 
   return (
     <div className="flex flex-row flex-nowrap border-slate-800 rounded-lg overflow-hidden h-40 w-min">
+      <OpenStringNoteDots />
       {fretPositions.map((fret) => (
         <Fret key={fret} fretPosition={fret} />
       ))}
@@ -96,8 +97,10 @@ const NoteDot = ({
 }: {
   stringIdx: number
   fretPosition: number
+  openString?: boolean
 }) => {
   const { rootNote, mode, activeChord, keySig, scaleType } = useKeyContext()
+  const isOpenString = fretPosition === 0
 
   const note = keySig.guitarNotes[fretPosition][stringIdx]
   const notePosition = activeChord
@@ -127,9 +130,15 @@ const NoteDot = ({
   //TO BE SET IN PREMIUM MODE
   const CAGED_FEATURE_ON = false
 
+  const isNonRootNoteOpenString = isOpenString && note !== rootNote
   const bgColors = CAGED_FEATURE_ON
     ? getCAGEDColors(result)
+    : isNonRootNoteOpenString
+    ? 'white'
     : getStandardColors(notePosition || 2)
+
+  const textColor = isNonRootNoteOpenString ? 'text-slate-900' : 'text-white'
+  const border = isNonRootNoteOpenString ? 'border-2 border-slate-900' : ''
 
   return (
     <Fade
@@ -137,7 +146,7 @@ const NoteDot = ({
       className={'z-10'}
     >
       <div
-        className={`rounded-full w-5 h-5 translate-y-3 relative flex items-center justify-center overflow-hidden`}
+        className={`rounded-full w-5 h-5 translate-y-3 relative flex items-center justify-center overflow-hidden ${border}`}
       >
         <div className={`absolute w-full h-full rounded-full ${bgColors[0]}`} />
         <div
@@ -145,11 +154,30 @@ const NoteDot = ({
             bgColors[1] || bgColors[0]
           }`}
         />
-        <p className="font-poppins font-bold absolute text-white text-xs text-center cursor-default">
+        <p
+          className={`font-poppins font-bold absolute ${textColor} text-xs text-center cursor-default`}
+        >
           {note}
         </p>
       </div>
     </Fade>
+  )
+}
+
+const OpenStringNoteDots = () => {
+  const strings = [5, 4, 3, 2, 1, 0]
+  return (
+    <div className="mr-1 -translate-y-3">
+      {strings.map((stringIdx) => {
+        const height = stringIdx === 5 ? 'h-6' : 'h-7'
+        const mb = stringIdx === 5 ? 'mb-1' : ''
+        return (
+          <div className={`${height} ${mb}`}>
+            <NoteDot stringIdx={stringIdx} fretPosition={0} />
+          </div>
+        )
+      })}
+    </div>
   )
 }
 
