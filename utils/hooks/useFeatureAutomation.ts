@@ -3,28 +3,31 @@ import { useKeyContext } from '../../components/KeyContext'
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const useFeatureAutomation = () => {
-  const {
-    setDisplayRootNoteOptions,
-    setRootNote,
-    setScaleType,
-    keySig,
-    setActiveChord,
-  } = useKeyContext()
+  const { setRootNote, setScaleType, keySig, setActiveChord } = useKeyContext()
 
   const automateSetRootNote = async () => {
-    await wait(1200)
-    setDisplayRootNoteOptions(true)
-    setTimeout(() => {
-      setDisplayRootNoteOptions(false)
-      setRootNote('F')
-    }, 2000)
+    setActiveChord(undefined)
+    await wait(500)
+    setRootNote('A')
+    await wait(1000)
+    setRootNote('B')
+    await wait(1000)
+    setRootNote('C')
+    await wait(1000)
+    setRootNote('D')
+    await wait(1000)
+    setRootNote('E')
+    await wait(1000)
+    setRootNote('F')
+    await wait(1000)
+    setRootNote('G')
+    await wait(1000)
+    setRootNote('A')
   }
 
   const automatePentatonicScale = async () => {
     await wait(1200)
     setScaleType('pentatonic')
-    await wait(2500)
-    setScaleType('base')
   }
 
   const automateChordSelection = async () => {

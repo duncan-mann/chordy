@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { useKeyContext } from '../KeyContext'
 import { Fade } from '../animations/Fade'
 import { useFeatureAutomation } from '../../utils/hooks/useFeatureAutomation'
-import { Note } from '../../types/chords'
+import { KeyMode, Note } from '../../types/chords'
 
 interface WelcomeStep {
   title: string
@@ -13,7 +13,7 @@ interface WelcomeStep {
 
 export const MENU_BAR_SCREEN_SIZE = 785
 
-export const WelcomeSidebar = () => {
+export const GuideSidebar = () => {
   const { sidebarIsOpen, setSidebarIsOpen } = useKeyContext()
   const [welcomeState, setWelcomeState] = useState<number>(0)
   const {
@@ -32,9 +32,9 @@ export const WelcomeSidebar = () => {
 
   const steps: WelcomeStep[] = [
     {
-      title: 'Welcome to my Fretboard app!',
+      title: 'Welcome to fretboard.fyi',
       description:
-        'With Fretboard.fyi, you can easily navigate the guitar fretboard, visualize scales and chords in any key, and discover chord voicings across the neck.',
+        'With this tool you can easily navigate the guitar fretboard by visualizing scales and chords in any key.',
       buttonText: 'Get started',
       buttonAction: async () => {
         goToNextStep()
@@ -44,14 +44,7 @@ export const WelcomeSidebar = () => {
     {
       title: 'Learn Scales Across the Fretboard',
       description:
-        'Select a harmonic key and see the full scale across the fretboard. Ideal for learning scales in different keys and understanding the fretboard layout.',
-      buttonText: 'Next',
-      buttonAction: goToNextStep,
-    },
-    {
-      title: 'Unlock Your Improvisation Skills',
-      description:
-        'Use visualized scales to start improvising and jamming along with songs in any key. Express your musical ideas and level up your playing.',
+        'Select a harmonic key and see the full scale across the fretboard.',
       buttonText: 'Next',
       buttonAction: async () => {
         goToNextStep()
@@ -61,7 +54,7 @@ export const WelcomeSidebar = () => {
     {
       title: 'Explore the Pentatonic Scale',
       description:
-        'Click on the pentatonic scale button to see a visual representation. This versatile scale adds melodic flair, opening up possibilities for captivating melodies and solos.',
+        'Click the pentatonic button to visualize the widely used scale found in all music genres.',
       buttonText: 'Next',
       buttonAction: async () => {
         goToNextStep()
@@ -73,13 +66,6 @@ export const WelcomeSidebar = () => {
       description:
         'Discover alternative chord voicings by clicking on a chord name. Find a range of voicings across the neck, adding unique sounds and variations to familiar songs.',
       buttonText: 'Next',
-      buttonAction: goToNextStep,
-    },
-    {
-      title: 'Write Music, fast',
-      description:
-        'Easily identify appropriate chords within a key using Fretboard.fyi. Perfect for songwriters, it simplifies finding harmonizing chords and writing music efficiently.',
-      buttonText: "Let's rock!",
       buttonAction: closeSidebar,
     },
   ]
@@ -90,7 +76,7 @@ export const WelcomeSidebar = () => {
     <div
       className={`w-[30vw] lg:w-[25vw] bg-slate-800/50 backdrop-blur-sm text-white transition-transform duration-500 ease-in-out transform rounded-2xl ${
         sidebarIsOpen ? 'translate-x-0' : 'translate-x-full'
-      } fixed top-0 right-0 h-screen z-[100]`}
+      } fixed top-0 right-0 h-screen z-[100] font-poppins`}
     >
       <WelcomeContent step={step} />
     </div>
@@ -101,12 +87,8 @@ const WelcomeContent = ({ step }: PropsWithChildren<{ step: WelcomeStep }>) => {
   return (
     <Fade key={step.title} className="min-h-screen">
       <div className={'flex flex-col mt-44 items-center p-10 min-h-screen'}>
-        <p className={'text-white font-inter text-3xl mb-8 text-center'}>
-          {step.title}
-        </p>
-        <p className={'font-inter text-sm mb-10 text-center'}>
-          {step.description}
-        </p>
+        <p className={'text-white text-3xl mb-8 text-center'}>{step.title}</p>
+        <p className={'text-sm mb-10 text-center'}>{step.description}</p>
         <button
           className={'rounded-md border-white border-2 p-1 w-32'}
           onClick={step.buttonAction}
@@ -139,22 +121,22 @@ export const SideBar = () => {
   return (
     <div className="text-slate-500 top-0 left-0 h-screen sidebar flex flex-col items-center font-poppins mr-5">
       <div className="flex flex-col my-10">
-        <div
-          className={`${
-            isSelected('maj') && selectedStyles
-          } text-left cursor-pointer select-none mb-2`}
-          onClick={() => setMode('maj')}
-        >
-          <p className={'text-xs md:text-base'}>major</p>
-        </div>
-        <div
-          className={`${
-            isSelected('min') && selectedStyles
-          } text-left  cursor-pointer select-none mb-2`}
-          onClick={() => setMode('min')}
-        >
-          <p className={'text-xs md:text-base'}>minor</p>
-        </div>
+        {(['maj', 'min'] as KeyMode[]).map((mode) => (
+          <div
+            key={mode}
+            className={`${
+              isSelected(mode) && selectedStyles
+            } text-left cursor-pointer select-none mb-2`}
+            onClick={() => {
+              setActiveChord(undefined)
+              setMode(mode)
+            }}
+          >
+            <p className={'text-xs md:text-base'}>
+              {mode === 'maj' ? 'major' : 'minor'}
+            </p>
+          </div>
+        ))}
         <div
           className={`${
             isPentatonic && selectedStyles
@@ -164,7 +146,10 @@ export const SideBar = () => {
           <p className={'text-xs md:text-base'}>pentatonic</p>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center ">
+      <div
+        id="key-selector"
+        className="flex flex-col items-center justify-center "
+      >
         {whiteNotes.map((note) => {
           const isSelectedRootNote = rootNote.includes(note)
           const isSelectedFlat = isSelectedRootNote && rootNote.includes('b')
