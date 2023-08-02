@@ -172,7 +172,7 @@ const OpenStringNoteDots = () => {
         const height = stringIdx === 5 ? 'h-6' : 'h-7'
         const mb = stringIdx === 5 ? 'mb-1' : ''
         return (
-          <div className={`${height} ${mb}`}>
+          <div key={stringIdx} className={`${height} ${mb}`}>
             <NoteDot stringIdx={stringIdx} fretPosition={0} />
           </div>
         )

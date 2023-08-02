@@ -1,5 +1,6 @@
 import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
+import Image from 'next/image'
 
 interface IKeyDisplay {
   theme?: 'light' | 'dark'
@@ -64,7 +65,7 @@ export const KeyDisplay = ({ theme = 'light' }: IKeyDisplay) => {
               } cursor-pointer p-2 rounded-full h-12 w-12`}
               onClick={togglePentatonic}
             >
-              <img src={styles.pentagonImgSrc} className="h-7" />
+              <Image src={styles.pentagonImgSrc} className="h-7" />
             </div>
           </div>
         </div>

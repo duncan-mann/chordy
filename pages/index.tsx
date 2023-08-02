@@ -40,7 +40,7 @@ const NavBar = () => {
       <h3 className={`font-poppins font-bold text-xl text-white mr-20 sticky`}>
         fretboard.fyi
       </h3>
-      <a href={FEEDBACK_FORM_LINK} target="_blank">
+      <a href={FEEDBACK_FORM_LINK} target="_blank" rel="noreferrer">
         <p className="text-gray-400 hover:text-white font-poppins">feedback</p>
       </a>
     </div>

@@ -123,6 +123,7 @@ export const SideBar = () => {
       <div className="flex flex-col my-10">
         {(['maj', 'min'] as KeyMode[]).map((mode) => (
           <div
+            key={mode}
             className={`${
               isSelected(mode) && selectedStyles
             } text-left cursor-pointer select-none mb-2`}
