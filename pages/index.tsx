@@ -1,6 +1,6 @@
 import { GuitarNeck } from '../components/GuitarNeck'
 import { useKeyPress } from '../utils/hooks/useKeyPress'
-import { SideBar, GuideSidebar } from '../components/Layout/Sidebar'
+import { SideBar } from '../components/Layout/Sidebar'
 import { Chords } from '../components/ChordHeader'
 import { ChordDisplay, KeyDisplay } from '../components/KeyDisplay'
 
