@@ -1,4 +1,8 @@
+import { ChordMode } from '../types/chords'
+import { Chord } from '../utils/get-chord'
+import { advancedChords } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
+import { Dropdown } from './Layout/Dropdown'
 import { Fade } from './animations/Fade'
 
 interface IKeyDisplay {
@@ -74,7 +78,7 @@ export const KeyDisplay = ({ theme = 'light' }: IKeyDisplay) => {
 }
 
 export const ChordDisplay = () => {
-  const { activeChord } = useKeyContext()
+  const { activeChord, setActiveChord } = useKeyContext()
   if (!activeChord) return null
 
   return (
@@ -109,6 +113,13 @@ export const ChordDisplay = () => {
                     </p>
                   </div>
                 ))}
+                <Dropdown
+                  items={advancedChords.map((chord: ChordMode) => ({
+                    label: chord,
+                    onClick: () =>
+                      setActiveChord(new Chord(activeChord.rootNote, chord)),
+                  }))}
+                />
               </div>
             </div>
           </Fade>

@@ -2,9 +2,10 @@ import React from 'react'
 
 import { getCommonNotes } from '../utils/music-theory'
 import { useKeyContext } from './KeyContext'
-import { Fade } from './animations/Fade'
 import { Note } from '../types/chords'
 import { getCAGEDColors, getCAGEDPosition } from '../utils/hooks/useCAGEDShapes'
+import { Chord } from '../utils/get-chord'
+import { Fade } from './animations/Fade'
 
 export const GuitarNeck = () => {
   const { width } = useKeyContext()
@@ -99,7 +100,7 @@ const NoteDot = ({
   fretPosition: number
   openString?: boolean
 }) => {
-  const { rootNote, mode, activeChord, keySig, scaleType } = useKeyContext()
+  const { rootNote, activeChord, keySig, scaleType } = useKeyContext()
   const isOpenString = fretPosition === 0
 
   const note = keySig.guitarNotes[fretPosition][stringIdx]
@@ -107,58 +108,50 @@ const NoteDot = ({
     ? activeChord.getNotePosition(note)
     : keySig.getNotePosition(note)
 
-  const commonNotes = getCommonNotes(note) as string[]
-
-  const isActiveNote = (notes: Note[]) => {
-    for (const note of notes) {
-      if (commonNotes.includes(note)) return true
-    }
-    return false
-  }
-
-  const isInActiveChord = Boolean(
-    activeChord && isActiveNote(activeChord.notes)
-  )
-
-  if (scaleType === 'pentatonic' && !isActiveNote(keySig.pentatonicScale))
-    return null
-  else if (activeChord && !isInActiveChord) return null
-  else if (!activeChord && !isActiveNote(keySig.notes)) return null
-
-  const result = getCAGEDPosition(stringIdx, notePosition)
+  const cagedPosition = getCAGEDPosition(stringIdx, notePosition)
 
   //TO BE SET IN PREMIUM MODE
   const CAGED_FEATURE_ON = false
-
   const isNonRootNoteOpenString = isOpenString && note !== rootNote
   const bgColors = CAGED_FEATURE_ON
-    ? getCAGEDColors(result)
+    ? getCAGEDColors(cagedPosition)
     : isNonRootNoteOpenString
     ? 'white'
-    : getStandardColors(notePosition || 2)
+    : getStandardColors({ note, chord: activeChord, stringIdx })
 
   const textColor = isNonRootNoteOpenString ? 'text-slate-900' : 'text-white'
   const border = isNonRootNoteOpenString ? 'border-2 border-slate-900' : ''
 
+  if (
+    !getShouldDisplayNote({
+      note,
+      chord: activeChord,
+      scale: keySig.scales[scaleType],
+    })
+  ) {
+    return null
+  }
+
   return (
-    <Fade
-      key={`${note}-${rootNote}-${mode}-${scaleType}-${activeChord?.rootNote}`}
-      className={'z-10'}
-    >
-      <div
-        className={`rounded-full w-5 h-5 translate-y-3 relative flex items-center justify-center overflow-hidden ${border}`}
-      >
-        <div className={`absolute w-full h-full rounded-full ${bgColors[0]}`} />
+    <Fade key={`${stringIdx}-${fretPosition}`}>
+      <div>
         <div
-          className={`absolute w-1/2 h-full transform translate-x-2/4 ${
-            bgColors[1] || bgColors[0]
-          }`}
-        />
-        <p
-          className={`font-poppins font-bold absolute ${textColor} text-xs text-center cursor-default`}
+          className={`rounded-full w-5 h-5 translate-y-3 relative flex items-center justify-center overflow-hidden ${border}`}
         >
-          {note}
-        </p>
+          <div
+            className={`absolute w-full h-full rounded-full ${bgColors[0]}`}
+          />
+          <div
+            className={`absolute w-1/2 h-full transform translate-x-2/4 ${
+              bgColors[1] || bgColors[0]
+            }`}
+          />
+          <p
+            className={`font-poppins font-bold absolute ${textColor} text-xs text-center cursor-default`}
+          >
+            {note}
+          </p>
+        </div>
       </div>
     </Fade>
   )
@@ -189,5 +182,36 @@ const getFretWidth = (position: number): string | undefined => {
   if (position <= 20) return 'w-[50px]'
 }
 
-const getStandardColors = (notePosition: number) =>
-  notePosition === 1 ? ['bg-sky-500'] : ['bg-slate-900']
+const getStandardColors = ({
+  note,
+  chord,
+  stringIdx,
+}: {
+  note: Note
+  chord?: Chord
+  stringIdx: number
+}) => {
+  //Determine if note is in chord
+  if (!chord) return ['bg-slate-900']
+  if (chord.rootNote !== note && stringIdx === 0) return ['bg-slate-900']
+  return chord.isNoteInChord(note) ? ['bg-sky-500'] : ['bg-slate-900']
+}
+
+const getShouldDisplayNote = ({
+  chord,
+  note,
+  scale,
+}: {
+  chord?: Chord
+  note: Note
+  scale: Note[]
+}): boolean => {
+  if (
+    chord &&
+    chord.notes.some((scaleNote) => getCommonNotes(note).includes(scaleNote))
+  )
+    return true
+  if (scale.some((scaleNote) => getCommonNotes(note).includes(scaleNote)))
+    return true
+  return false
+}

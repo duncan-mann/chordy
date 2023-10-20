@@ -1,11 +1,15 @@
-import { ChordMode, KeyMode, Note } from '../types/chords'
+import { AdvancedChords, ChordMode, KeyMode, Note } from '../types/chords'
 import { getCommonNotes, getGuitarFretNotes, scalesByKey } from './music-theory'
-import { Note as TonalNote } from 'tonal'
+import {
+  Scale,
+  Note as TonalNote,
+  Chord as TonalChord,
+  ScaleType as TScaleType,
+} from 'tonal'
+import { ScaleType } from '../types/chords'
 
-const getFlatOrSharpNotes = (rootNote: Note): Note[] =>
-  rootNote.includes('b')
-    ? ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
-    : ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+type TonalScale = ReturnType<(typeof Scale)['get']>
+type TonalChord = ReturnType<(typeof TonalChord)['get']>['type']
 
 const getScaleNotes = (rootNote: Note, mode: KeyMode): Note[] =>
   scalesByKey[rootNote][mode] as Note[]
@@ -26,32 +30,7 @@ const evaluateTheoreticalNotes = (note: Note): Note => {
 }
 
 export const getChordNotes = (note: Note, mode: ChordMode): Note[] => {
-  const rootNote = evaluateTheoreticalNotes(note)
-  const chromaticScale = getFlatOrSharpNotes(rootNote)
-  const rootNoteIndex = chromaticScale.indexOf(rootNote)
-
-  switch (mode) {
-    case 'maj':
-      return [
-        chromaticScale[rootNoteIndex],
-        chromaticScale[(rootNoteIndex + 4) % 12],
-        chromaticScale[(rootNoteIndex + 7) % 12],
-      ]
-    case 'min':
-      return [
-        chromaticScale[rootNoteIndex],
-        chromaticScale[(rootNoteIndex + 3) % 12],
-        chromaticScale[(rootNoteIndex + 7) % 12],
-      ]
-    case 'dim':
-      return [
-        chromaticScale[rootNoteIndex],
-        chromaticScale[(rootNoteIndex + 3) % 12],
-        chromaticScale[(rootNoteIndex + 6) % 12],
-      ]
-    default:
-      throw new Error(`Invalid harmonic mode: ${mode}`)
-  }
+  return TonalChord.get(`${note}${mode}`).notes as Note[]
 }
 
 const getPentatonicScale = (note: Note, mode: KeyMode): Note[] => {
@@ -71,6 +50,44 @@ const getPentatonicScale = (note: Note, mode: KeyMode): Note[] => {
 
   return pentatonicNotes
 }
+
+const getBluesScale = (note: Note, mode: KeyMode): Note[] => {
+  const rootNote = evaluateTheoreticalNotes(note)
+  switch (mode) {
+    case 'maj':
+      return Scale.get(`${rootNote} major blues`).notes as Note[]
+    case 'min':
+      return Scale.get(`${rootNote} minor blues`).notes as Note[]
+  }
+}
+
+const getAvancedScales = (rootNote: Note) => {
+  const scaleNames = [
+    'major blues',
+    'minor blues',
+    'diminished',
+    'dorian',
+    'lydian',
+    'mixolydian',
+    'phrygian',
+    'locrian',
+  ] as const
+
+  let scales: Record<string, TonalScale> = {}
+  for (let i = 0; i < scaleNames.length; i++) {
+    const scale = scaleNames[i]
+    scales[stringToCamelCase(scale)] = Scale.get(`${rootNote} ${scale}`)
+  }
+  return scales
+}
+
+const stringToCamelCase = (str: string) =>
+  str
+    .split(' ')
+    .map((word, idx) =>
+      idx !== 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
+    )
+    .join('')
 
 const chordModes: Record<KeyMode, ChordMode[]> = {
   maj: ['maj', 'min', 'min', 'maj', 'maj', 'min', 'dim'],
@@ -104,23 +121,33 @@ export class Chord {
         return 5
     }
   }
+
+  public isNoteInChord(note: Note) {
+    return this.notes.some((chordNote) =>
+      getCommonNotes(note).includes(chordNote)
+    )
+  }
 }
 
 export class KeySignature {
   rootNote: Note
   mode: KeyMode
-  notes: Note[]
-  chords: Chord[]
-  pentatonicScale: Note[]
   guitarNotes: Note[][]
+  advancedScales: Record<string, TonalScale>
+  chords: Chord[]
+  scales: Record<ScaleType, Note[]>
 
   constructor(rootNote: Note, mode: KeyMode) {
     this.rootNote = rootNote
     this.mode = mode
-    this.notes = getScaleNotes(rootNote, mode)
-    this.pentatonicScale = getPentatonicScale(rootNote, mode)
+    this.scales = {
+      base: getScaleNotes(rootNote, mode),
+      pentatonic: getPentatonicScale(rootNote, mode),
+      blues: getBluesScale(rootNote, mode),
+    }
     this.guitarNotes = getGuitarFretNotes(rootNote, mode)
-    this.chords = this.notes.map((note, idx) => {
+    this.advancedScales = getAvancedScales(this.rootNote)
+    this.chords = this.scales.base.map((note, idx) => {
       const chordMode = chordModes[mode]
       return new Chord(note, chordMode[idx])
     })
@@ -129,9 +156,9 @@ export class KeySignature {
   public getNotePosition(note: Note) {
     const tnote = TonalNote.enharmonic(note) as Note
     let position =
-      this.notes.indexOf(note) > -1
-        ? this.notes.indexOf(note)
-        : this.notes.indexOf(tnote)
+      this.scales.base.indexOf(note) > -1
+        ? this.scales.base.indexOf(note)
+        : this.scales.base.indexOf(tnote)
     if (position === -1) return null
     return position + 1
   }

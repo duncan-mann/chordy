@@ -4,7 +4,7 @@ import { useKeyContext } from './KeyContext'
 import { Fade } from './animations/Fade'
 
 const getChordString = (chord: Chord) => {
-  const signs: Record<ChordMode, string> = {
+  const signs: Partial<Record<ChordMode, string>> = {
     maj: '',
     min: 'm',
     dim: '°',
@@ -21,9 +21,7 @@ export const Chords = () => {
         className="flex flex-wrap items-center w-11/12 justify-center"
       >
         {keySig.chords.map((chord, idx) => {
-          const isActive =
-            chord.rootNote == activeChord?.rootNote &&
-            chord.mode === activeChord.mode
+          const isActive = chord.rootNote == activeChord?.rootNote
           const fontWeight = !isActive ? 'font-normal' : 'font-bold'
           const buttonStyles = isActive
             ? 'bg-slate-900 border-2 border-slate-900  bg-transition-colors duration-300 text-white font-bold'
